@@ -6,4 +6,6 @@ I made an app a few years ago which I turned it into a company, pivoted, took th
 
 Now I'm a senior developer / teach lead / early-stage CTO / amature baker.
 
-You can find me on LinkedIn: https://www.linkedin.com/in/johnkershaw/
+##### Where you can find me
+
+[LinkedIn](https://www.linkedin.com/in/johnkershaw/)
