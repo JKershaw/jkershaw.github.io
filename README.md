@@ -10,6 +10,3 @@ Now I'm a senior developer / tech lead / VC consultant / early-stage CTO / amate
 
 [LinkedIn](https://www.linkedin.com/in/johnkershaw/)
 [Threads](https://www.threads.net/@wardrox)
-
-
-[Buy me a coffee](https://buymeacoffee.com/jkershaw)
