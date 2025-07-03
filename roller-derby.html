@@ -447,7 +447,7 @@
                     <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
-                    <a href="https://rollerderbyworldcup.live/item.html?id=5003477" target="_blank" class="stream-button">
+                    <a href="https://rollerderbyworldcup.live/item.html?id=4995890" target="_blank" class="stream-button">
                         <div class="stream-button-content">
                             <div class="play-icon">▶️</div>
                             <div class="stream-text">
@@ -469,7 +469,7 @@
                     <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
-                    <a href="https://rollerderbyworldcup.live/item.html?id=5003478" target="_blank" class="stream-button">
+                    <a href="https://rollerderbyworldcup.live/item.html?id=5003477" target="_blank" class="stream-button">
                         <div class="stream-button-content">
                             <div class="play-icon">▶️</div>
                             <div class="stream-text">
@@ -491,7 +491,7 @@
                     <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
-                    <a href="https://rollerderbyworldcup.live/item.html?id=5003479" target="_blank" class="stream-button">
+                    <a href="https://rollerderbyworldcup.live/item.html?id=5003478" target="_blank" class="stream-button">
                         <div class="stream-button-content">
                             <div class="play-icon">▶️</div>
                             <div class="stream-text">
@@ -513,7 +513,7 @@
                     <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
-                    <a href="https://rollerderbyworldcup.live/item.html?id=5003480" target="_blank" class="stream-button">
+                    <a href="https://rollerderbyworldcup.live/item.html?id=5003479" target="_blank" class="stream-button">
                         <div class="stream-button-content">
                             <div class="play-icon">▶️</div>
                             <div class="stream-text">
@@ -535,7 +535,7 @@
                     <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
-                    <a href="https://rollerderbyworldcup.live/item.html?id=5003481" target="_blank" class="stream-button">
+                    <a href="https://rollerderbyworldcup.live/item.html?id=5003480" target="_blank" class="stream-button">
                         <div class="stream-button-content">
                             <div class="play-icon">▶️</div>
                             <div class="stream-text">
@@ -667,7 +667,8 @@
                     const liveIndicator = game.isLive ? '<span class="live-indicator-text">🔴 LIVE</span>' : '';
                     const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
                     
-                    const trackId = 5003476 + game.track; // Track 1 = 5003477, Track 2 = 5003478, etc.
+                    // Track 1 has a different ID, tracks 2-5 are sequential
+                    const trackId = game.track === 1 ? 4995890 : 5003476 + game.track;
                     const streamUrl = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
                     
                     gamesList += `
