@@ -617,35 +617,69 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlContent, 'text/html');
                 
-                // Look for game results in the HTML
-                // This will need to be adjusted based on the actual HTML structure
-                const gameRows = doc.querySelectorAll('tr'); // Adjust selector based on actual structure
+                // Look for table rows with game data
+                const gameRows = doc.querySelectorAll('tr');
                 
                 gameRows.forEach(row => {
                     try {
-                        // Parse team names and scores from the row
-                        // This is a generic approach - may need adjustment based on actual HTML
                         const cells = row.querySelectorAll('td');
-                        if (cells.length >= 3) {
-                            const team1 = cells[0]?.textContent?.trim();
-                            const team2 = cells[1]?.textContent?.trim();
-                            const scoreText = cells[2]?.textContent?.trim();
+                        if (cells.length >= 4) {
+                            // Extract team names and scores from cells
+                            let homeTeam = cells[1]?.textContent?.trim();
+                            let homeScore = cells[2]?.textContent?.trim();
+                            let awayTeam = cells[3]?.textContent?.trim();
+                            let awayScore = cells[4]?.textContent?.trim();
                             
-                            if (team1 && team2 && scoreText && scoreText.includes('-')) {
-                                const [score1, score2] = scoreText.split('-').map(s => s.trim());
+                            // Skip if no scores (upcoming games have "--")
+                            if (!homeScore || !awayScore || homeScore === '--' || awayScore === '--') {
+                                return;
+                            }
+                            
+                            // Clean up team names (remove extra text)
+                            if (homeTeam) homeTeam = homeTeam.replace(/^(Team\s+|Selección\s+)/i, '').trim();
+                            if (awayTeam) awayTeam = awayTeam.replace(/^(Team\s+|Selección\s+)/i, '').trim();
+                            
+                            // Map team names to our format
+                            const teamMap = {
+                                'USA': 'USA',
+                                'Chilena': 'Chile',
+                                'Finland': 'Finland', 
+                                'Germany': 'Germany',
+                                'Black Diaspora Roller Derby': 'Black Diaspora',
+                                'Denmark': 'Denmark',
+                                'Australia': 'Australia',
+                                'SALAAM Roller Derby': 'Salaam',
+                                'Sweden': 'Sweden',
+                                'Scotland': 'Scotland'
+                            };
+                            
+                            const mappedHome = teamMap[homeTeam] || homeTeam;
+                            const mappedAway = teamMap[awayTeam] || awayTeam;
+                            
+                            if (mappedHome && mappedAway && homeScore && awayScore && 
+                                !isNaN(homeScore) && !isNaN(awayScore)) {
                                 
-                                if (score1 && score2 && !isNaN(score1) && !isNaN(score2)) {
-                                    // Create a key to match against our games
-                                    const gameKey = `${team1} v ${team2}`;
-                                    const reverseKey = `${team2} v ${team1}`;
-                                    
-                                    gameScores[gameKey] = { team1: team1, score1: score1, team2: team2, score2: score2 };
-                                    gameScores[reverseKey] = { team1: team2, score1: score2, team2: team1, score2: score1 };
-                                }
+                                // Create game keys to match our schedule format
+                                const gameKey1 = `${mappedHome} v ${mappedAway}`;
+                                const gameKey2 = `${mappedAway} v ${mappedHome}`;
+                                
+                                gameScores[gameKey1] = { 
+                                    team1: mappedHome, 
+                                    score1: homeScore, 
+                                    team2: mappedAway, 
+                                    score2: awayScore 
+                                };
+                                gameScores[gameKey2] = { 
+                                    team1: mappedAway, 
+                                    score1: awayScore, 
+                                    team2: mappedHome, 
+                                    score2: homeScore 
+                                };
                             }
                         }
                     } catch (e) {
                         // Skip rows that don't match expected format
+                        console.log('Skipping row:', e);
                     }
                 });
                 
