@@ -129,6 +129,50 @@
             text-align: center;
         }
 
+        .stream-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .stream-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+            color: white;
+        }
+
+        .stream-button-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .play-icon {
+            font-size: 3em;
+            opacity: 0.9;
+        }
+
+        .stream-text h4 {
+            margin: 0;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+
+        .stream-text p {
+            margin: 5px 0 0 0;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
         .placeholder-message {
             padding: 40px;
             text-align: center;
@@ -193,14 +237,11 @@
 
     <div class="container">
         <div class="instructions">
-            <h3>🔧 Setup Instructions</h3>
-            <ol>
-                <li>Log into your account at <a href="https://rollerderbyworldcup.live/" target="_blank">rollerderbyworldcup.live</a></li>
-                <li>Right-click on each stream and select "Copy frame source" or "Inspect element" to get the embed URL</li>
-                <li>Replace the placeholder <code>src="EMBED_URL_HERE"</code> with the actual stream URLs</li>
-                <li>Remove the placeholder messages and uncomment the iframe lines</li>
-                <li>Save and refresh this page</li>
-            </ol>
+            <h3>📺 Live Streaming Information</h3>
+            <p><strong>Event Schedule:</strong> July 3-6, 2025 • 8:00 AM - 8:00 PM daily (times are 1 hour ahead of your local time)</p>
+            <p><strong>Today's Special:</strong> Roller-Disco at 8:00 PM!</p>
+            <p><strong>Finals Day (July 6):</strong> 3rd/4th place at 3:30 PM • Final at 5:30 PM</p>
+            <p>Click the buttons below to open each track's live stream. You'll need to log in with your purchased access.</p>
         </div>
 
         <div class="streams-grid">
@@ -210,7 +251,15 @@
                     <div class="live-indicator">🔴 LIVE</div>
                 </div>
                 <div class="stream-embed">
-                    <iframe src="https://rollerderbyworldcup.live/item.html?id=5003477" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+                    <a href="https://rollerderbyworldcup.live/item.html?id=5003477" target="_blank" class="stream-button">
+                        <div class="stream-button-content">
+                            <div class="play-icon">▶️</div>
+                            <div class="stream-text">
+                                <h4>Watch Track 1 Live</h4>
+                                <p>Click to open in new tab</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -220,11 +269,15 @@
                     <div class="live-indicator">🔴 LIVE</div>
                 </div>
                 <div class="stream-embed">
-                    <!-- <iframe src="EMBED_URL_HERE" width="100%" height="100%" frameborder="0" allowfullscreen></iframe> -->
-                    <div class="placeholder-message">
-                        <strong>Track 2 Stream</strong><br>
-                        Replace this with the actual embed URL
-                    </div>
+                    <a href="https://rollerderbyworldcup.live/item.html?id=5003478" target="_blank" class="stream-button">
+                        <div class="stream-button-content">
+                            <div class="play-icon">▶️</div>
+                            <div class="stream-text">
+                                <h4>Watch Track 2 Live</h4>
+                                <p>Click to open in new tab</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -234,11 +287,15 @@
                     <div class="live-indicator">🔴 LIVE</div>
                 </div>
                 <div class="stream-embed">
-                    <!-- <iframe src="EMBED_URL_HERE" width="100%" height="100%" frameborder="0" allowfullscreen></iframe> -->
-                    <div class="placeholder-message">
-                        <strong>Track 3 Stream</strong><br>
-                        Replace this with the actual embed URL
-                    </div>
+                    <a href="https://rollerderbyworldcup.live/item.html?id=5003479" target="_blank" class="stream-button">
+                        <div class="stream-button-content">
+                            <div class="play-icon">▶️</div>
+                            <div class="stream-text">
+                                <h4>Watch Track 3 Live</h4>
+                                <p>Click to open in new tab</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -248,11 +305,15 @@
                     <div class="live-indicator">🔴 LIVE</div>
                 </div>
                 <div class="stream-embed">
-                    <!-- <iframe src="EMBED_URL_HERE" width="100%" height="100%" frameborder="0" allowfullscreen></iframe> -->
-                    <div class="placeholder-message">
-                        <strong>Track 4 Stream</strong><br>
-                        Replace this with the actual embed URL
-                    </div>
+                    <a href="https://rollerderbyworldcup.live/item.html?id=5003480" target="_blank" class="stream-button">
+                        <div class="stream-button-content">
+                            <div class="play-icon">▶️</div>
+                            <div class="stream-text">
+                                <h4>Watch Track 4 Live</h4>
+                                <p>Click to open in new tab</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -262,11 +323,15 @@
                     <div class="live-indicator">🔴 LIVE</div>
                 </div>
                 <div class="stream-embed">
-                    <!-- <iframe src="EMBED_URL_HERE" width="100%" height="100%" frameborder="0" allowfullscreen></iframe> -->
-                    <div class="placeholder-message">
-                        <strong>Track 5 Stream</strong><br>
-                        Replace this with the actual embed URL
-                    </div>
+                    <a href="https://rollerderbyworldcup.live/item.html?id=5003481" target="_blank" class="stream-button">
+                        <div class="stream-button-content">
+                            <div class="play-icon">▶️</div>
+                            <div class="stream-text">
+                                <h4>Watch Track 5 Live</h4>
+                                <p>Click to open in new tab</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
