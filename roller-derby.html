@@ -784,6 +784,11 @@
         function getScoreForGame(day, track, game, isLive = false) {
             const score = scoresData.find(s => s.day === day && s.track === track && s.game === game);
             if (score) {
+                // Don't show 0-0 scores (games that haven't started)
+                if (score.homeScore === 0 && score.awayScore === 0) {
+                    return null;
+                }
+                
                 console.log(`Found score for Day ${day}, Track ${track}, Game ${game}: ${score.homeScore} - ${score.awayScore}`);
                 let scoreText = `${score.homeScore} - ${score.awayScore}`;
                 
