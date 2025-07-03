@@ -1,0 +1,60 @@
+{
+  "July 3, 2025": {
+    "track1": [
+      { "time": "9:00", "teams": "USA v Chile", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "England v Belgium", "duration": 60, "starred": true },
+      { "time": "13:00", "teams": "Australia v France", "duration": 60, "starred": false },
+      { "time": "15:00", "teams": "Germany v Canada", "duration": 60, "starred": false },
+      { "time": "17:00", "teams": "Scotland v Netherlands", "duration": 60, "starred": true }
+    ],
+    "track2": [
+      { "time": "9:30", "teams": "Finland v Norway", "duration": 60, "starred": false },
+      { "time": "11:30", "teams": "Austria v Switzerland", "duration": 60, "starred": false },
+      { "time": "13:30", "teams": "Ireland v Wales", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "Spain v Italy", "duration": 60, "starred": false },
+      { "time": "17:30", "teams": "Czech Republic v Poland", "duration": 60, "starred": false }
+    ],
+    "track3": [
+      { "time": "10:00", "teams": "Japan v South Korea", "duration": 60, "starred": false },
+      { "time": "12:00", "teams": "New Zealand v South Africa", "duration": 60, "starred": false },
+      { "time": "14:00", "teams": "Brazil v Argentina", "duration": 60, "starred": true },
+      { "time": "16:00", "teams": "Mexico v Colombia", "duration": 60, "starred": false },
+      { "time": "18:00", "teams": "Peru v Ecuador", "duration": 60, "starred": false }
+    ],
+    "track4": [
+      { "time": "10:30", "teams": "Latvia v Lithuania", "duration": 60, "starred": false },
+      { "time": "12:30", "teams": "Estonia v Belarus", "duration": 60, "starred": false },
+      { "time": "14:30", "teams": "Ukraine v Moldova", "duration": 60, "starred": false },
+      { "time": "16:30", "teams": "Romania v Bulgaria", "duration": 60, "starred": false },
+      { "time": "18:30", "teams": "Croatia v Serbia", "duration": 60, "starred": false }
+    ],
+    "track5": [
+      { "time": "11:00", "teams": "Portugal v Greece", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "Turkey v Cyprus", "duration": 60, "starred": false },
+      { "time": "15:00", "teams": "Israel v Malta", "duration": 60, "starred": false },
+      { "time": "17:00", "teams": "Luxembourg v Monaco", "duration": 60, "starred": false },
+      { "time": "19:00", "teams": "Iceland v Faroe Islands", "duration": 60, "starred": false }
+    ]
+  },
+  "July 4, 2025": {
+    "track1": [],
+    "track2": [],
+    "track3": [],
+    "track4": [],
+    "track5": []
+  },
+  "July 5, 2025": {
+    "track1": [],
+    "track2": [],
+    "track3": [],
+    "track4": [],
+    "track5": []
+  },
+  "July 6, 2025": {
+    "track1": [],
+    "track2": [],
+    "track3": [],
+    "track4": [],
+    "track5": []
+  }
+}
