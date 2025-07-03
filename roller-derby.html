@@ -740,11 +740,21 @@
         }
 
         // Get score for a specific day, track, and game
-        function getScoreForGame(day, track, game) {
+        function getScoreForGame(day, track, game, isLive = false) {
             const score = scoresData.find(s => s.day === day && s.track === track && s.game === game);
             if (score) {
                 console.log(`Found score for Day ${day}, Track ${track}, Game ${game}: ${score.homeScore} - ${score.awayScore}`);
-                return `${score.homeScore} - ${score.awayScore}`;
+                let scoreText = `${score.homeScore} - ${score.awayScore}`;
+                
+                // Add fire emoji for close games in progress
+                if (isLive && score.homeScore >= 30 && score.awayScore >= 30) {
+                    const scoreDiff = Math.abs(score.homeScore - score.awayScore);
+                    if (scoreDiff <= 30) {
+                        scoreText += ' 🔥';
+                    }
+                }
+                
+                return scoreText;
             }
             return null;
         }
@@ -847,7 +857,7 @@
                     const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
                     
                     // Get score for this game (assuming day 1 for now - could be enhanced later)
-                    const score = getScoreForGame(1, game.track, game.gameNumber);
+                    const score = getScoreForGame(1, game.track, game.gameNumber, game.isLive);
                     const scoreDisplay = score ? `<span class="game-score">${score}</span>` : '';
                     
                     // Track 1 has a different ID, tracks 2-5 are sequential starting from 5003477
