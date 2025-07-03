@@ -2,10 +2,10 @@
   "July 3, 2025": {
     "track1": [
       { "time": "9:00", "teams": "USA v Chile", "duration": 60, "starred": false },
-      { "time": "11:00", "teams": "England v Belgium", "duration": 60, "starred": true },
-      { "time": "13:00", "teams": "Australia v France", "duration": 60, "starred": false },
-      { "time": "15:00", "teams": "Germany v Canada", "duration": 60, "starred": false },
-      { "time": "17:00", "teams": "Scotland v Netherlands", "duration": 60, "starred": true }
+      { "time": "11:00", "teams": "Canada v Colombia", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "France v Austria", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "Philippines v Latvia", "duration": 60, "starred": false },
+      { "time": "17:30", "teams": "Portugal v Slovenia", "duration": 60, "starred": false }
     ],
     "track2": [
       { "time": "9:30", "teams": "Finland v Norway", "duration": 60, "starred": false },
