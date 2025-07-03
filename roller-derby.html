@@ -436,6 +436,38 @@
             line-height: 1.4;
         }
 
+        .refresh-controls {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .refresh-button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .refresh-button:hover {
+            background: #c0392b;
+            transform: translateY(-1px);
+        }
+
+        .countdown {
+            font-size: 0.9em;
+            color: #666;
+        }
+
         @media (max-width: 768px) {
             .streams-grid {
                 grid-template-columns: 1fr;
@@ -659,9 +691,16 @@
         <p class="toggle-description">When enabled, all track links open in the same tab. When disabled, each track opens in a new tab.</p>
     </div>
 
+    <div class="refresh-controls">
+        <button class="refresh-button" id="manualRefresh">🔄 Refresh Scores Now</button>
+        <div class="countdown" id="refreshCountdown">Next auto-refresh in 60 seconds</div>
+    </div>
+
     <script>
         let scheduleData = {};
         let scoresData = [];
+        let refreshCountdownTimer;
+        let nextRefreshTime;
 
         // Convert Austria time (CET/CEST) to user's local time
         function convertAustriaTimeToLocal(timeString, dateString) {
@@ -698,6 +737,8 @@
                     scoresData = parseScoresData(jsonData);
                     // Refresh the schedule display to show updated scores
                     updateSchedule();
+                    // Restart countdown after successful refresh
+                    startCountdown();
                 } else {
                     throw new Error('Invalid response format');
                 }
@@ -757,6 +798,54 @@
                 return scoreText;
             }
             return null;
+        }
+
+        // Update countdown display
+        function updateCountdown() {
+            const now = Date.now();
+            const timeLeft = Math.max(0, nextRefreshTime - now);
+            const secondsLeft = Math.ceil(timeLeft / 1000);
+            
+            const countdownEl = document.getElementById('refreshCountdown');
+            if (countdownEl) {
+                if (secondsLeft > 0) {
+                    countdownEl.textContent = `Next auto-refresh in ${secondsLeft} seconds`;
+                } else {
+                    countdownEl.textContent = 'Refreshing...';
+                }
+            }
+        }
+
+        // Start countdown timer
+        function startCountdown() {
+            nextRefreshTime = Date.now() + 60000; // 60 seconds from now
+            
+            if (refreshCountdownTimer) {
+                clearInterval(refreshCountdownTimer);
+            }
+            
+            refreshCountdownTimer = setInterval(updateCountdown, 1000);
+            updateCountdown(); // Update immediately
+        }
+
+        // Manual refresh function
+        function manualRefresh() {
+            const button = document.getElementById('manualRefresh');
+            if (button) {
+                button.textContent = '🔄 Refreshing...';
+                button.disabled = true;
+            }
+            
+            // Reset countdown
+            startCountdown();
+            
+            // Refresh data
+            loadScoresData().finally(() => {
+                if (button) {
+                    button.textContent = '🔄 Refresh Scores Now';
+                    button.disabled = false;
+                }
+            });
         }
 
         // Load schedule data from JSON file
@@ -959,8 +1048,15 @@
             const toggle = document.getElementById('reuseTabToggle');
             toggle.addEventListener('change', updateTabBehavior);
             
+            // Set up manual refresh button
+            const refreshButton = document.getElementById('manualRefresh');
+            refreshButton.addEventListener('click', manualRefresh);
+            
             // Initialize tab behavior
             updateTabBehavior();
+            
+            // Start initial countdown
+            startCountdown();
         });
         
         // Update schedule and scores every minute
@@ -970,7 +1066,7 @@
                 // Ensure track links in games list have correct target after update
                 updateTabBehavior();
             }
-            // Refresh scores data
+            // Refresh scores data (countdown will be restarted in loadScoresData)
             loadScoresData();
         }, 60000);
     </script>
