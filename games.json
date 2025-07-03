@@ -37,11 +37,11 @@
   },
   "July 4, 2025": {
     "track1": [
-      { "time": "09:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "11:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "13:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "15:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "17:30", "teams": "TBA v TBA", "duration": 60, "starred": false }
+      { "time": "09:00", "teams": "USA v Fuego Latino", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "Canada v Black Diaspora", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "France v Finland", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "Switzerland v Iceland", "duration": 60, "starred": false },
+      { "time": "17:30", "teams": "Chinese Nations v South Africa", "duration": 60, "starred": false }
     ],
     "track2": [
       { "time": "09:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
