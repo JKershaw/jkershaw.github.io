@@ -29,11 +29,10 @@
       { "time": "18:00", "teams": "Switzerland v Poland", "duration": 60, "starred": false }
     ],
     "track5": [
-      { "time": "11:00", "teams": "Portugal v Greece", "duration": 60, "starred": false },
-      { "time": "13:00", "teams": "Turkey v Cyprus", "duration": 60, "starred": false },
-      { "time": "15:00", "teams": "Israel v Malta", "duration": 60, "starred": false },
-      { "time": "17:00", "teams": "Luxembourg v Monaco", "duration": 60, "starred": false },
-      { "time": "19:00", "teams": "Iceland v Faroe Islands", "duration": 60, "starred": false }
+      { "time": "9:00", "teams": "Black Diaspora v Denmark", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "Spain v New Zealand", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "Norway v South Africa", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "West Indies v Chinese Nations", "duration": 60, "starred": false }
     ]
   },
   "July 4, 2025": {
