@@ -739,7 +739,7 @@
                             const localGameDate = convertAustriaTimeToLocal(game.time, currentDate);
                             const localTimeString = formatLocalTime(localGameDate);
                             const gameStartTime = localGameDate.getTime();
-                            const gameEndTime = gameStartTime + (game.duration * 60 * 1000);
+                            const gameEndTime = gameStartTime + (105 * 60 * 1000); // 1:45 = 105 minutes
                             
                             const isLive = currentTime >= gameStartTime && currentTime < gameEndTime;
                             const minutesElapsed = isLive ? Math.floor((currentTime - gameStartTime) / (60 * 1000)) : 0;
@@ -810,7 +810,7 @@
                 for (const game of trackGames) {
                     const localGameDate = convertAustriaTimeToLocal(game.time, currentDate);
                     const gameStartTime = localGameDate.getTime();
-                    const gameEndTime = gameStartTime + (game.duration * 60 * 1000);
+                    const gameEndTime = gameStartTime + (105 * 60 * 1000); // 1:45 = 105 minutes
                     const localTimeString = formatLocalTime(localGameDate);
 
                     if (currentTime >= gameStartTime && currentTime < gameEndTime) {
