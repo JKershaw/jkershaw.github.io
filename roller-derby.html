@@ -302,6 +302,36 @@
             margin-left: 5px;
         }
 
+        .game-item.live {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-left: 4px solid #28a745;
+            padding-left: 10px;
+            animation: livePulse 2s infinite;
+        }
+
+        .game-item.live .game-time {
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .live-indicator-text {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        .time-elapsed {
+            color: #28a745;
+            font-size: 0.8em;
+            font-weight: normal;
+        }
+
+        @keyframes livePulse {
+            0% { background: linear-gradient(135deg, #d4edda, #c3e6cb); }
+            50% { background: linear-gradient(135deg, #c3e6cb, #b3d4b8); }
+            100% { background: linear-gradient(135deg, #d4edda, #c3e6cb); }
+        }
+
         .track-schedule {
             background: #f8f9fa;
             border-radius: 8px;
@@ -567,9 +597,17 @@
                     const trackGames = todaySchedule[trackKey];
                     if (trackGames) {
                         trackGames.forEach(game => {
+                            const [hours, minutes] = game.time.split(':').map(Number);
+                            const gameStart = hours * 60 + minutes;
+                            const gameEnd = gameStart + game.duration;
+                            const isLive = currentTime >= gameStart && currentTime < gameEnd;
+                            const minutesElapsed = isLive ? currentTime - gameStart : 0;
+                            
                             allGames.push({
                                 ...game,
-                                track: i
+                                track: i,
+                                isLive: isLive,
+                                minutesElapsed: minutesElapsed
                             });
                         });
                     }
@@ -587,10 +625,16 @@
                 // Generate games list HTML
                 allGames.forEach(game => {
                     const starredClass = game.starred ? 'starred' : '';
+                    const liveClass = game.isLive ? 'live' : '';
+                    const combinedClass = `${starredClass} ${liveClass}`.trim();
+                    
                     const starIcon = game.starred ? '<span class="star-icon">⭐</span>' : '';
+                    const liveIndicator = game.isLive ? '<span class="live-indicator-text">🔴 LIVE</span>' : '';
+                    const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
+                    
                     gamesList += `
-                        <div class="game-item ${starredClass}">
-                            <span class="game-time">${game.time}</span> - ${game.teams}${starIcon}
+                        <div class="game-item ${combinedClass}">
+                            <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} ${liveIndicator} ${elapsedTime}
                             <div class="game-track">Track ${game.track}</div>
                         </div>
                     `;
