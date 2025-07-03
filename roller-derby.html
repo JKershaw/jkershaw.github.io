@@ -369,6 +369,67 @@
             font-size: 0.85em;
         }
 
+        .tab-behavior-toggle {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .toggle-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .toggle-slider {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #ccc;
+            border-radius: 30px;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #reuseTabToggle:checked + .toggle-slider {
+            background: #e74c3c;
+        }
+
+        #reuseTabToggle:checked + .toggle-slider::before {
+            transform: translateX(30px);
+        }
+
+        #reuseTabToggle {
+            display: none;
+        }
+
+        .toggle-description {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.4;
+        }
+
         @media (max-width: 768px) {
             .streams-grid {
                 grid-template-columns: 1fr;
@@ -576,6 +637,15 @@
         </div>
     </div>
 
+    <div class="tab-behavior-toggle">
+        <label class="toggle-label">
+            <input type="checkbox" id="reuseTabToggle" checked>
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Reuse stream tab</span>
+        </label>
+        <p class="toggle-description">When enabled, all track links open in the same tab. When disabled, each track opens in a new tab.</p>
+    </div>
+
     <script>
         let scheduleData = {};
 
@@ -768,13 +838,40 @@
             }
         }
 
+        // Handle tab reuse toggle
+        function updateTabBehavior() {
+            const reuseTab = document.getElementById('reuseTabToggle').checked;
+            const targetValue = reuseTab ? 'derby-stream' : '_blank';
+            
+            // Update main stream buttons
+            document.querySelectorAll('.stream-button').forEach(button => {
+                button.target = targetValue;
+            });
+            
+            // Update track links in games list
+            document.querySelectorAll('.track-link').forEach(link => {
+                link.target = targetValue;
+            });
+        }
+
         // Load schedule data and update on page load
-        document.addEventListener('DOMContentLoaded', loadScheduleData);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadScheduleData();
+            
+            // Set up toggle event listener
+            const toggle = document.getElementById('reuseTabToggle');
+            toggle.addEventListener('change', updateTabBehavior);
+            
+            // Initialize tab behavior
+            updateTabBehavior();
+        });
         
         // Update schedule every minute
         setInterval(() => {
             if (Object.keys(scheduleData).length > 0) {
                 updateSchedule();
+                // Ensure track links in games list have correct target after update
+                updateTabBehavior();
             }
         }, 60000);
     </script>
