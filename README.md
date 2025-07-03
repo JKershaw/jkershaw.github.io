@@ -1,3 +1,5 @@
+[Click here for the Roller Derby World Cup community information page](https://www.jkershaw.com/roller-derby.html)
+
 ##### Hello
 
 Hi I'm John, and I've been writing software for most of my life.
