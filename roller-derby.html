@@ -49,12 +49,22 @@
             font-weight: bold;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            margin: 5px;
         }
 
         .schedule-link:hover {
             background: #c0392b;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .header-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .container {
@@ -373,6 +383,24 @@
                 font-size: 2em;
             }
             
+            .header p {
+                font-size: 1em;
+                margin-bottom: 10px;
+            }
+            
+            .schedule-link {
+                padding: 10px 20px;
+                font-size: 0.9em;
+                margin: 3px;
+                min-width: 140px;
+                text-align: center;
+            }
+            
+            .header-buttons {
+                gap: 5px;
+                margin-top: 10px;
+            }
+            
             .stream-embed {
                 height: 100px;
             }
@@ -399,12 +427,14 @@
     <div class="header">
         <h1>🏆 Roller Derby World Cup 2025</h1>
         <p>July 3-6, 2025 • Innsbruck, Austria • 5 Tracks Live</p>
-        <a href="https://rollerderbyworldcup.com/pages/schedule-1" target="_blank" class="schedule-link">
-            📅 View Schedule
-        </a>
-        <a href="https://flattrackstats.com/tournaments/124615" target="_blank" class="schedule-link" style="margin-left: 15px;">
-            📊 Live Scores
-        </a>
+        <div class="header-buttons">
+            <a href="https://rollerderbyworldcup.com/pages/schedule-1" target="_blank" class="schedule-link">
+                📅 View Schedule
+            </a>
+            <a href="https://flattrackstats.com/tournaments/124615" target="_blank" class="schedule-link">
+                📊 Live Scores
+            </a>
+        </div>
     </div>
 
     <div class="container">
