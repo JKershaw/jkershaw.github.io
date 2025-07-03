@@ -217,18 +217,29 @@
             padding: 20px;
             margin-bottom: 30px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            text-align: center;
         }
 
         .schedule-container h3 {
             color: #e74c3c;
             margin-bottom: 20px;
             font-size: 1.2em;
+            text-align: center;
+        }
+
+        .schedule-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .schedule-image-column {
+            text-align: center;
         }
 
         .schedule-image {
             width: 100%;
-            max-width: 800px;
+            max-width: 100%;
             height: auto;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -239,6 +250,41 @@
             color: #666;
             font-style: italic;
             margin: 0;
+            font-size: 0.9em;
+        }
+
+        .schedule-games-column {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .schedule-games-column h4 {
+            color: #e74c3c;
+            margin: 0 0 15px 0;
+            font-size: 1.1em;
+        }
+
+        #games-list {
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .game-item {
+            margin-bottom: 8px;
+            padding: 5px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .game-time {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .game-track {
+            color: #666;
+            font-size: 0.8em;
         }
 
         .track-schedule {
@@ -264,6 +310,11 @@
         @media (max-width: 768px) {
             .streams-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .schedule-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
             
             .header h1 {
@@ -312,8 +363,18 @@
 
         <div class="schedule-container">
             <h3>📅 Tournament Schedule</h3>
-            <img src="https://cdn.shopify.com/s/files/1/0652/1995/2831/files/SCHEDULE-WEB_64d0c9e1-b5fb-4257-ba2c-a2fcd78ece66.jpg?v=1749883830" alt="Roller Derby World Cup 2025 Schedule" class="schedule-image">
-            <p class="schedule-note"><strong>Note:</strong> All times shown are 1 hour ahead of your local time</p>
+            <div class="schedule-layout">
+                <div class="schedule-image-column">
+                    <img src="https://cdn.shopify.com/s/files/1/0652/1995/2831/files/SCHEDULE-WEB_64d0c9e1-b5fb-4257-ba2c-a2fcd78ece66.jpg?v=1749883830" alt="Roller Derby World Cup 2025 Schedule" class="schedule-image">
+                    <p class="schedule-note"><strong>Note:</strong> Times shown are 1 hour ahead of your local time</p>
+                </div>
+                <div class="schedule-games-column">
+                    <h4>Today's Games (July 3, 2025)</h4>
+                    <div id="games-list">
+                        <p>Loading schedule data...</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="streams-grid">
@@ -495,7 +556,55 @@
                         `;
                     }
                 }
+                
+                // Update games list
+                const gamesListEl = document.getElementById('games-list');
+                if (gamesListEl) {
+                    gamesListEl.innerHTML = '<p>No games scheduled for today. Event runs July 3-6, 2025.</p>';
+                }
                 return;
+            }
+
+            // Create games list
+            const gamesListEl = document.getElementById('games-list');
+            if (gamesListEl) {
+                let gamesList = '';
+                const allGames = [];
+                
+                // Collect all games from all tracks
+                for (let i = 1; i <= 5; i++) {
+                    const trackKey = `track${i}`;
+                    const trackGames = todaySchedule[trackKey];
+                    if (trackGames) {
+                        trackGames.forEach(game => {
+                            allGames.push({
+                                ...game,
+                                track: i
+                            });
+                        });
+                    }
+                }
+                
+                // Sort games by time
+                allGames.sort((a, b) => {
+                    const timeA = a.time.split(':').map(Number);
+                    const timeB = b.time.split(':').map(Number);
+                    const minutesA = timeA[0] * 60 + timeA[1];
+                    const minutesB = timeB[0] * 60 + timeB[1];
+                    return minutesA - minutesB;
+                });
+                
+                // Generate games list HTML
+                allGames.forEach(game => {
+                    gamesList += `
+                        <div class="game-item">
+                            <span class="game-time">${game.time}</span> - ${game.teams}
+                            <div class="game-track">Track ${game.track}</div>
+                        </div>
+                    `;
+                });
+                
+                gamesListEl.innerHTML = gamesList;
             }
 
             // Update each track
