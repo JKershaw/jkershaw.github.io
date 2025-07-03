@@ -369,65 +369,10 @@
             font-size: 0.85em;
         }
 
-        .scores-container {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-
-        .scores-container h3 {
-            color: #e74c3c;
-            margin-bottom: 20px;
-            font-size: 1.2em;
-            text-align: center;
-        }
-
-        .scores-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-        }
-
-        .score-item {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            border-left: 4px solid #e74c3c;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .score-details {
-            flex: 1;
-        }
-
-        .score-track {
-            color: #e74c3c;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-
-        .score-game {
+        .game-score {
             color: #666;
-            font-size: 0.85em;
-            margin-top: 2px;
-        }
-
-        .score-result {
-            font-weight: bold;
-            font-size: 1.1em;
-            color: #2c3e50;
-            text-align: right;
-        }
-
-        .score-notes {
-            color: #666;
-            font-size: 0.8em;
-            font-style: italic;
-            margin-top: 5px;
+            font-size: 0.75em;
+            margin-left: 10px;
         }
 
         .tab-behavior-toggle {
@@ -585,12 +530,6 @@
             </div>
         </div>
 
-        <div class="scores-container">
-            <h3>🏆 Match Scores</h3>
-            <div id="scores-list">
-                <p>Loading scores...</p>
-            </div>
-        </div>
 
         <div class="streams-grid">
             <div class="stream-container">
@@ -751,16 +690,13 @@
                 if (jsonMatch) {
                     const jsonData = JSON.parse(jsonMatch[1]);
                     scoresData = parseScoresData(jsonData);
-                    updateScoresDisplay();
+                    // Refresh the schedule display to show updated scores
+                    updateSchedule();
                 } else {
                     throw new Error('Invalid response format');
                 }
             } catch (error) {
                 console.error('Error loading scores data:', error);
-                const scoresListEl = document.getElementById('scores-list');
-                if (scoresListEl) {
-                    scoresListEl.innerHTML = '<p>Error loading scores data.</p>';
-                }
             }
         }
 
@@ -779,8 +715,9 @@
                     const awayScore = cells[4]?.v;
                     const notes = cells[5]?.v;
                     
-                    // Only include rows with actual scores
-                    if (day && track && game && (homeScore !== null || awayScore !== null)) {
+                    // Only include rows with numeric scores
+                    if (day && track && game && 
+                        typeof homeScore === 'number' && typeof awayScore === 'number') {
                         scores.push({
                             day,
                             track,
@@ -796,51 +733,10 @@
             return scores;
         }
 
-        // Update scores display
-        function updateScoresDisplay() {
-            const scoresListEl = document.getElementById('scores-list');
-            if (!scoresListEl) return;
-            
-            if (scoresData.length === 0) {
-                scoresListEl.innerHTML = '<p>No scores available yet.</p>';
-                return;
-            }
-            
-            // Group scores by day
-            const scoresByDay = {};
-            scoresData.forEach(score => {
-                if (!scoresByDay[score.day]) {
-                    scoresByDay[score.day] = [];
-                }
-                scoresByDay[score.day].push(score);
-            });
-            
-            let html = '';
-            Object.keys(scoresByDay).sort().forEach(day => {
-                html += `<h4>Day ${day}</h4>`;
-                html += '<div class="scores-grid">';
-                
-                scoresByDay[day].forEach(score => {
-                    const scoreDisplay = score.homeScore !== null && score.awayScore !== null 
-                        ? `${score.homeScore} - ${score.awayScore}`
-                        : 'TBD';
-                    
-                    html += `
-                        <div class="score-item">
-                            <div class="score-details">
-                                <div class="score-track">Track ${score.track}</div>
-                                <div class="score-game">Game ${score.game}</div>
-                                ${score.notes ? `<div class="score-notes">${score.notes}</div>` : ''}
-                            </div>
-                            <div class="score-result">${scoreDisplay}</div>
-                        </div>
-                    `;
-                });
-                
-                html += '</div>';
-            });
-            
-            scoresListEl.innerHTML = html;
+        // Get score for a specific day, track, and game
+        function getScoreForGame(day, track, game) {
+            const score = scoresData.find(s => s.day === day && s.track === track && s.game === game);
+            return score ? `${score.homeScore} - ${score.awayScore}` : null;
         }
 
         // Load schedule data from JSON file
@@ -939,13 +835,17 @@
                     const liveIndicator = game.isLive ? '<span class="live-indicator-text">🔴 LIVE</span>' : '';
                     const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
                     
+                    // Get score for this game (assuming day 1 for now - could be enhanced later)
+                    const score = getScoreForGame(1, game.track, game.game || 1);
+                    const scoreDisplay = score ? `<span class="game-score">${score}</span>` : '';
+                    
                     // Track 1 has a different ID, tracks 2-5 are sequential starting from 5003477
                     const trackId = game.track === 1 ? 4995890 : 5003475 + game.track;
                     const streamUrl = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
                     
                     gamesList += `
                         <div class="game-item ${combinedClass}">
-                            <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} ${liveIndicator} ${elapsedTime}
+                            <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} ${liveIndicator} ${elapsedTime} ${scoreDisplay}
                             <div class="game-track">
                                 <a href="${streamUrl}" target="derby-stream" class="track-link">Track ${game.track}</a>
                             </div>
