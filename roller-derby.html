@@ -300,6 +300,16 @@
             text-decoration: underline;
         }
 
+        .game-score {
+            background: #6c757d;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
         .game-item.starred {
             background: linear-gradient(135deg, #fff3cd, #ffeaa7);
             border-left: 4px solid #f39c12;
@@ -573,6 +583,7 @@
                     throw new Error('Failed to load games.json');
                 }
                 scheduleData = await response.json();
+                await loadScores(); // Load scores after schedule data
                 updateSchedule();
             } catch (error) {
                 console.error('Error loading schedule data:', error);
@@ -582,6 +593,73 @@
                     gamesListEl.innerHTML = '<p>Error loading schedule data. Please check games.json file.</p>';
                 }
             }
+        }
+
+        // Store game scores
+        let gameScores = {};
+
+        // Load game scores from flattrackstats.com
+        async function loadScores() {
+            try {
+                // Use a CORS proxy to access the flattrackstats page
+                const proxyUrl = 'https://api.allorigins.win/get?url=';
+                const targetUrl = 'https://flattrackstats.com/tournaments/124615';
+                const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch scores');
+                }
+                
+                const data = await response.json();
+                const htmlContent = data.contents;
+                
+                // Parse the HTML to extract scores
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlContent, 'text/html');
+                
+                // Look for game results in the HTML
+                // This will need to be adjusted based on the actual HTML structure
+                const gameRows = doc.querySelectorAll('tr'); // Adjust selector based on actual structure
+                
+                gameRows.forEach(row => {
+                    try {
+                        // Parse team names and scores from the row
+                        // This is a generic approach - may need adjustment based on actual HTML
+                        const cells = row.querySelectorAll('td');
+                        if (cells.length >= 3) {
+                            const team1 = cells[0]?.textContent?.trim();
+                            const team2 = cells[1]?.textContent?.trim();
+                            const scoreText = cells[2]?.textContent?.trim();
+                            
+                            if (team1 && team2 && scoreText && scoreText.includes('-')) {
+                                const [score1, score2] = scoreText.split('-').map(s => s.trim());
+                                
+                                if (score1 && score2 && !isNaN(score1) && !isNaN(score2)) {
+                                    // Create a key to match against our games
+                                    const gameKey = `${team1} v ${team2}`;
+                                    const reverseKey = `${team2} v ${team1}`;
+                                    
+                                    gameScores[gameKey] = { team1: team1, score1: score1, team2: team2, score2: score2 };
+                                    gameScores[reverseKey] = { team1: team2, score1: score2, team2: team1, score2: score1 };
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        // Skip rows that don't match expected format
+                    }
+                });
+                
+                console.log('Loaded scores:', gameScores);
+                
+            } catch (error) {
+                console.error('Error loading scores:', error);
+                // Continue without scores if loading fails
+            }
+        }
+
+        // Get score for a game if available
+        function getGameScore(teams) {
+            return gameScores[teams] || null;
         }
 
         function updateSchedule() {
@@ -661,13 +739,18 @@
                     const liveIndicator = game.isLive ? '<span class="live-indicator-text">🔴 LIVE</span>' : '';
                     const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
                     
+                    // Check for completed game score
+                    const score = getGameScore(game.teams);
+                    const scoreDisplay = score ? 
+                        `<span class="game-score">${score.score1}-${score.score2}</span>` : '';
+                    
                     // Track 1 has a different ID, tracks 2-5 are sequential starting from 5003477
                     const trackId = game.track === 1 ? 4995890 : 5003475 + game.track;
                     const streamUrl = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
                     
                     gamesList += `
                         <div class="game-item ${combinedClass}">
-                            <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} ${liveIndicator} ${elapsedTime}
+                            <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} ${liveIndicator} ${elapsedTime} ${scoreDisplay}
                             <div class="game-track">
                                 <a href="${streamUrl}" target="_blank" class="track-link">Track ${game.track}</a>
                             </div>
@@ -744,6 +827,18 @@
                 updateSchedule();
             }
         }, 60000);
+        
+        // Refresh scores every 5 minutes
+        setInterval(async () => {
+            try {
+                await loadScores();
+                if (Object.keys(scheduleData).length > 0) {
+                    updateSchedule();
+                }
+            } catch (error) {
+                console.error('Error refreshing scores:', error);
+            }
+        }, 300000); // 5 minutes
     </script>
 </body>
 </html>
