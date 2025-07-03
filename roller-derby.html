@@ -300,16 +300,6 @@
             text-decoration: underline;
         }
 
-        .game-score {
-            background: #6c757d;
-            color: white;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-left: 5px;
-        }
-
         .game-item.starred {
             background: linear-gradient(135deg, #fff3cd, #ffeaa7);
             border-left: 4px solid #f39c12;
@@ -411,6 +401,9 @@
         <p>July 3-6, 2025 • Innsbruck, Austria • 5 Tracks Live</p>
         <a href="https://rollerderbyworldcup.com/pages/schedule-1" target="_blank" class="schedule-link">
             📅 View Schedule
+        </a>
+        <a href="https://flattrackstats.com/tournaments/124615" target="_blank" class="schedule-link" style="margin-left: 15px;">
+            📊 Live Scores
         </a>
     </div>
 
@@ -583,7 +576,6 @@
                     throw new Error('Failed to load games.json');
                 }
                 scheduleData = await response.json();
-                await loadScores(); // Load scores after schedule data
                 updateSchedule();
             } catch (error) {
                 console.error('Error loading schedule data:', error);
@@ -593,107 +585,6 @@
                     gamesListEl.innerHTML = '<p>Error loading schedule data. Please check games.json file.</p>';
                 }
             }
-        }
-
-        // Store game scores
-        let gameScores = {};
-
-        // Load game scores from flattrackstats.com
-        async function loadScores() {
-            try {
-                // Use a CORS proxy to access the flattrackstats page
-                const proxyUrl = 'https://api.allorigins.win/get?url=';
-                const targetUrl = 'https://flattrackstats.com/tournaments/124615';
-                const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
-                
-                if (!response.ok) {
-                    throw new Error('Failed to fetch scores');
-                }
-                
-                const data = await response.json();
-                const htmlContent = data.contents;
-                
-                // Parse the HTML to extract scores
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlContent, 'text/html');
-                
-                // Look for table rows with game data
-                const gameRows = doc.querySelectorAll('tr');
-                
-                gameRows.forEach(row => {
-                    try {
-                        const cells = row.querySelectorAll('td');
-                        if (cells.length >= 4) {
-                            // Extract team names and scores from cells
-                            let homeTeam = cells[1]?.textContent?.trim();
-                            let homeScore = cells[2]?.textContent?.trim();
-                            let awayTeam = cells[3]?.textContent?.trim();
-                            let awayScore = cells[4]?.textContent?.trim();
-                            
-                            // Skip if no scores (upcoming games have "--")
-                            if (!homeScore || !awayScore || homeScore === '--' || awayScore === '--') {
-                                return;
-                            }
-                            
-                            // Clean up team names (remove extra text)
-                            if (homeTeam) homeTeam = homeTeam.replace(/^(Team\s+|Selección\s+)/i, '').trim();
-                            if (awayTeam) awayTeam = awayTeam.replace(/^(Team\s+|Selección\s+)/i, '').trim();
-                            
-                            // Map team names to our format
-                            const teamMap = {
-                                'USA': 'USA',
-                                'Chilena': 'Chile',
-                                'Finland': 'Finland', 
-                                'Germany': 'Germany',
-                                'Black Diaspora Roller Derby': 'Black Diaspora',
-                                'Denmark': 'Denmark',
-                                'Australia': 'Australia',
-                                'SALAAM Roller Derby': 'Salaam',
-                                'Sweden': 'Sweden',
-                                'Scotland': 'Scotland'
-                            };
-                            
-                            const mappedHome = teamMap[homeTeam] || homeTeam;
-                            const mappedAway = teamMap[awayTeam] || awayTeam;
-                            
-                            if (mappedHome && mappedAway && homeScore && awayScore && 
-                                !isNaN(homeScore) && !isNaN(awayScore)) {
-                                
-                                // Create game keys to match our schedule format
-                                const gameKey1 = `${mappedHome} v ${mappedAway}`;
-                                const gameKey2 = `${mappedAway} v ${mappedHome}`;
-                                
-                                gameScores[gameKey1] = { 
-                                    team1: mappedHome, 
-                                    score1: homeScore, 
-                                    team2: mappedAway, 
-                                    score2: awayScore 
-                                };
-                                gameScores[gameKey2] = { 
-                                    team1: mappedAway, 
-                                    score1: awayScore, 
-                                    team2: mappedHome, 
-                                    score2: homeScore 
-                                };
-                            }
-                        }
-                    } catch (e) {
-                        // Skip rows that don't match expected format
-                        console.log('Skipping row:', e);
-                    }
-                });
-                
-                console.log('Loaded scores:', gameScores);
-                
-            } catch (error) {
-                console.error('Error loading scores:', error);
-                // Continue without scores if loading fails
-            }
-        }
-
-        // Get score for a game if available
-        function getGameScore(teams) {
-            return gameScores[teams] || null;
         }
 
         function updateSchedule() {
@@ -773,18 +664,13 @@
                     const liveIndicator = game.isLive ? '<span class="live-indicator-text">🔴 LIVE</span>' : '';
                     const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
                     
-                    // Check for completed game score
-                    const score = getGameScore(game.teams);
-                    const scoreDisplay = score ? 
-                        `<span class="game-score">${score.score1}-${score.score2}</span>` : '';
-                    
                     // Track 1 has a different ID, tracks 2-5 are sequential starting from 5003477
                     const trackId = game.track === 1 ? 4995890 : 5003475 + game.track;
                     const streamUrl = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
                     
                     gamesList += `
                         <div class="game-item ${combinedClass}">
-                            <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} ${liveIndicator} ${elapsedTime} ${scoreDisplay}
+                            <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} ${liveIndicator} ${elapsedTime}
                             <div class="game-track">
                                 <a href="${streamUrl}" target="_blank" class="track-link">Track ${game.track}</a>
                             </div>
@@ -861,18 +747,6 @@
                 updateSchedule();
             }
         }, 60000);
-        
-        // Refresh scores every 5 minutes
-        setInterval(async () => {
-            try {
-                await loadScores();
-                if (Object.keys(scheduleData).length > 0) {
-                    updateSchedule();
-                }
-            } catch (error) {
-                console.error('Error refreshing scores:', error);
-            }
-        }, 300000); // 5 minutes
     </script>
 </body>
 </html>
