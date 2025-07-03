@@ -736,7 +736,11 @@
         // Get score for a specific day, track, and game
         function getScoreForGame(day, track, game) {
             const score = scoresData.find(s => s.day === day && s.track === track && s.game === game);
-            return score ? `${score.homeScore} - ${score.awayScore}` : null;
+            if (score) {
+                console.log(`Found score for Day ${day}, Track ${track}, Game ${game}: ${score.homeScore} - ${score.awayScore}`);
+                return `${score.homeScore} - ${score.awayScore}`;
+            }
+            return null;
         }
 
         // Load schedule data from JSON file
@@ -796,7 +800,7 @@
                     const trackKey = `track${i}`;
                     const trackGames = todaySchedule[trackKey];
                     if (trackGames) {
-                        trackGames.forEach(game => {
+                        trackGames.forEach((game, gameIndex) => {
                             // Convert Austria time to local time
                             const localGameDate = convertAustriaTimeToLocal(game.time, currentDate);
                             const localTimeString = formatLocalTime(localGameDate);
@@ -811,6 +815,7 @@
                                 time: localTimeString, // Display local time
                                 originalTime: game.time, // Keep original for reference
                                 track: i,
+                                gameNumber: gameIndex + 1, // Game number starts from 1
                                 isLive: isLive,
                                 minutesElapsed: minutesElapsed,
                                 gameStartTime: gameStartTime,
@@ -836,7 +841,7 @@
                     const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
                     
                     // Get score for this game (assuming day 1 for now - could be enhanced later)
-                    const score = getScoreForGame(1, game.track, game.game || 1);
+                    const score = getScoreForGame(1, game.track, game.gameNumber);
                     const scoreDisplay = score ? `<span class="game-score">${score}</span>` : '';
                     
                     // Track 1 has a different ID, tracks 2-5 are sequential starting from 5003477
