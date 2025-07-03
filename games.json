@@ -65,10 +65,10 @@
       { "time": "18:00", "teams": "Taiwan v Latvia", "duration": 60, "starred": false }
     ],
     "track5": [
-      { "time": "09:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "11:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "13:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "15:30", "teams": "TBA v TBA", "duration": 60, "starred": false }
+      { "time": "09:00", "teams": "Ireland v Mexico", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "Scotland v Austria", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "Italy v Norway", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "Vietnam v Slovenia", "duration": 60, "starred": false }
     ]
   },
   "July 5, 2025": {
