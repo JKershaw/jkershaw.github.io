@@ -552,6 +552,25 @@
     <script>
         let scheduleData = {};
 
+        // Convert Austria time (CET/CEST) to user's local time
+        function convertAustriaTimeToLocal(timeString, dateString) {
+            const [hours, minutes] = timeString.split(':').map(Number);
+            
+            // Create a date object for the Austria time
+            // Assuming tournament is in CEST (UTC+2) during July
+            const austriaDate = new Date(`${dateString} ${timeString}:00 GMT+0200`);
+            
+            return austriaDate;
+        }
+
+        function formatLocalTime(date) {
+            return date.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            });
+        }
+
         // Load schedule data from JSON file
         async function loadScheduleData() {
             try {
@@ -574,7 +593,7 @@
         function updateSchedule() {
             const now = new Date();
             const currentDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-            const currentTime = now.getHours() * 60 + now.getMinutes(); // minutes since midnight
+            const currentTime = now.getTime(); // Use timestamp for accurate comparison
             
             const todaySchedule = scheduleData[currentDate];
             
@@ -610,17 +629,24 @@
                     const trackGames = todaySchedule[trackKey];
                     if (trackGames) {
                         trackGames.forEach(game => {
-                            const [hours, minutes] = game.time.split(':').map(Number);
-                            const gameStart = hours * 60 + minutes;
-                            const gameEnd = gameStart + game.duration;
-                            const isLive = currentTime >= gameStart && currentTime < gameEnd;
-                            const minutesElapsed = isLive ? currentTime - gameStart : 0;
+                            // Convert Austria time to local time
+                            const localGameDate = convertAustriaTimeToLocal(game.time, currentDate);
+                            const localTimeString = formatLocalTime(localGameDate);
+                            const gameStartTime = localGameDate.getTime();
+                            const gameEndTime = gameStartTime + (game.duration * 60 * 1000);
+                            
+                            const isLive = currentTime >= gameStartTime && currentTime < gameEndTime;
+                            const minutesElapsed = isLive ? Math.floor((currentTime - gameStartTime) / (60 * 1000)) : 0;
                             
                             allGames.push({
                                 ...game,
+                                time: localTimeString, // Display local time
+                                originalTime: game.time, // Keep original for reference
                                 track: i,
                                 isLive: isLive,
-                                minutesElapsed: minutesElapsed
+                                minutesElapsed: minutesElapsed,
+                                gameStartTime: gameStartTime,
+                                gameEndTime: gameEndTime
                             });
                         });
                     }
@@ -628,11 +654,7 @@
                 
                 // Sort games by time
                 allGames.sort((a, b) => {
-                    const timeA = a.time.split(':').map(Number);
-                    const timeB = b.time.split(':').map(Number);
-                    const minutesA = timeA[0] * 60 + timeA[1];
-                    const minutesB = timeB[0] * 60 + timeB[1];
-                    return minutesA - minutesB;
+                    return a.gameStartTime - b.gameStartTime;
                 });
                 
                 // Generate games list HTML
@@ -645,7 +667,7 @@
                     const liveIndicator = game.isLive ? '<span class="live-indicator-text">🔴 LIVE</span>' : '';
                     const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
                     
-                    const trackId = 5003477 + (game.track - 1); // Track 1 = 5003477, Track 2 = 5003478, etc.
+                    const trackId = 5003476 + game.track; // Track 1 = 5003477, Track 2 = 5003478, etc.
                     const streamUrl = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
                     
                     gamesList += `
@@ -672,26 +694,32 @@
                 let currentGame = null;
                 let nextGame = null;
 
-                // Find current and next games
+                // Find current and next games with timezone conversion
                 for (const game of trackGames) {
-                    const [hours, minutes] = game.time.split(':').map(Number);
-                    const gameStart = hours * 60 + minutes;
-                    const gameEnd = gameStart + game.duration;
+                    const localGameDate = convertAustriaTimeToLocal(game.time, currentDate);
+                    const gameStartTime = localGameDate.getTime();
+                    const gameEndTime = gameStartTime + (game.duration * 60 * 1000);
+                    const localTimeString = formatLocalTime(localGameDate);
 
-                    if (currentTime >= gameStart && currentTime < gameEnd) {
-                        currentGame = game;
-                    } else if (currentTime < gameStart && !nextGame) {
-                        nextGame = game;
+                    if (currentTime >= gameStartTime && currentTime < gameEndTime) {
+                        currentGame = { ...game, time: localTimeString };
+                    } else if (currentTime < gameStartTime && !nextGame) {
+                        nextGame = { ...game, time: localTimeString };
                     }
                 }
 
                 // If no current game, find the next one
                 if (!currentGame && !nextGame) {
                     nextGame = trackGames.find(game => {
-                        const [hours, minutes] = game.time.split(':').map(Number);
-                        const gameStart = hours * 60 + minutes;
-                        return currentTime < gameStart;
+                        const localGameDate = convertAustriaTimeToLocal(game.time, currentDate);
+                        const gameStartTime = localGameDate.getTime();
+                        return currentTime < gameStartTime;
                     });
+                    if (nextGame) {
+                        const localGameDate = convertAustriaTimeToLocal(nextGame.time, currentDate);
+                        const localTimeString = formatLocalTime(localGameDate);
+                        nextGame = { ...nextGame, time: localTimeString };
+                    }
                 }
 
                 // Update display
