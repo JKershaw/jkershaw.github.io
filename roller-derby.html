@@ -1080,7 +1080,10 @@
         // Load schedule data from JSON file
         async function loadScheduleData() {
             try {
-                const response = await fetch('games.json');
+                // Add timestamp to nearest minute to prevent excessive caching
+                const now = new Date();
+                const timestampMinute = Math.floor(now.getTime() / 60000) * 60000;
+                const response = await fetch(`games.json?t=${timestampMinute}`);
                 if (!response.ok) {
                     throw new Error('Failed to load games.json');
                 }
@@ -1089,9 +1092,13 @@
             } catch (error) {
                 console.error('Error loading schedule data:', error);
                 // Fallback to show error message
-                const gamesListEl = document.getElementById('games-list');
-                if (gamesListEl) {
-                    gamesListEl.innerHTML = '<p>Error loading schedule data. Please check games.json file.</p>';
+                const gamesListDay1El = document.getElementById('games-list-day1');
+                const gamesListDay2El = document.getElementById('games-list-day2');
+                if (gamesListDay1El) {
+                    gamesListDay1El.innerHTML = '<p>Error loading schedule data. Please check games.json file.</p>';
+                }
+                if (gamesListDay2El) {
+                    gamesListDay2El.innerHTML = '<p>Error loading schedule data. Please check games.json file.</p>';
                 }
             }
         }
