@@ -38,7 +38,7 @@
   "July 4, 2025": {
     "track1": [
       { "time": "09:00", "teams": "USA v Fuego Latino", "duration": 60, "starred": false },
-      { "time": "11:00", "teams": "Canada v Black Diaspora", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "Canada v Black Diaspora", "duration": 60, "starred": true },
       { "time": "13:00", "teams": "France v Finland", "duration": 60, "starred": false },
       { "time": "15:30", "teams": "Switzerland v Iceland", "duration": 60, "starred": false },
       { "time": "17:30", "teams": "Chinese Nations v South Africa", "duration": 60, "starred": false }
@@ -48,7 +48,7 @@
       { "time": "11:30", "teams": "England v Belgium", "duration": 60, "starred": false },
       { "time": "13:30", "teams": "Argentina v Sweden", "duration": 60, "starred": false },
       { "time": "16:00", "teams": "Czech v Indigenous", "duration": 60, "starred": false },
-      { "time": "18:00", "teams": "Babushka v Desi", "duration": 60, "starred": false }
+      { "time": "18:00", "teams": "Babushka v Desi", "duration": 60, "starred": true }
     ],
     "track3": [
       { "time": "09:00", "teams": "Chile v Colombia", "duration": 60, "starred": false },
@@ -65,9 +65,9 @@
       { "time": "18:00", "teams": "Taiwan v Latvia", "duration": 60, "starred": false }
     ],
     "track5": [
-      { "time": "09:00", "teams": "Ireland v Mexico", "duration": 60, "starred": false },
+      { "time": "09:00", "teams": "Ireland v Mexico", "duration": 60, "starred": true },
       { "time": "11:00", "teams": "Scotland v Austria", "duration": 60, "starred": false },
-      { "time": "13:00", "teams": "Italy v Norway", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "Italy v Norway", "duration": 60, "starred": true },
       { "time": "15:30", "teams": "Vietnam v Slovenia", "duration": 60, "starred": false }
     ]
   },
