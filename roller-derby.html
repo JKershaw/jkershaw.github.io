@@ -236,6 +236,64 @@
             text-align: center;
         }
 
+        .day-section {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .day-header {
+            background: #f8f9fa;
+            padding: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .day-header:hover {
+            background: #e9ecef;
+        }
+
+        .day-header h4 {
+            margin: 0;
+            color: #e74c3c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1em;
+        }
+
+        .collapse-icon {
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+
+        .day-content {
+            padding: 15px;
+            transition: max-height 0.3s ease;
+            overflow: hidden;
+        }
+
+        .day-content.collapsed {
+            max-height: 0;
+            padding: 0 15px;
+        }
+
+        .schedule-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
         .schedule-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -591,15 +649,47 @@
 
         <div class="schedule-container">
             <h3>📅 Tournament Schedule</h3>
-            <div class="schedule-layout">
-                <div class="schedule-image-column">
-                    <img src="https://cdn.shopify.com/s/files/1/0652/1995/2831/files/SCHEDULE-WEB_64d0c9e1-b5fb-4257-ba2c-a2fcd78ece66.jpg?v=1749883830" alt="Roller Derby World Cup 2025 Schedule" class="schedule-image">
+            
+            <!-- Day 1 -->
+            <div class="day-section">
+                <div class="day-header" onclick="toggleDay('day1')">
+                    <h4>Day 1 - Today (July 3, 2025) <span class="collapse-icon" id="day1-icon">▼</span></h4>
                 </div>
-                <div class="schedule-games-column">
-                    <h4>Today's Games (July 3, 2025)</h4>
-                    <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">⭐ = Games Nuke and Sausage want to watch | 🔥 = Close game (live)</p>
-                    <div id="games-list">
-                        <p>Loading schedule data...</p>
+                <div class="day-content" id="day1-content">
+                    <div class="schedule-layout">
+                        <div class="schedule-image-column">
+                            <img src="https://cdn.shopify.com/s/files/1/0652/1995/2831/files/SCHEDULE-WEB_64d0c9e1-b5fb-4257-ba2c-a2fcd78ece66.jpg?v=1749883830" alt="Roller Derby World Cup 2025 Schedule Day 1" class="schedule-image">
+                        </div>
+                        <div class="schedule-games-column">
+                            <h4>Today's Games (July 3, 2025)</h4>
+                            <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">⭐ = Games Nuke and Sausage want to watch | 🔥 = Close game (live)</p>
+                            <div id="games-list-day1">
+                                <p>Loading schedule data...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Day 2 -->
+            <div class="day-section">
+                <div class="day-header" onclick="toggleDay('day2')">
+                    <h4>Day 2 - Tomorrow (July 4, 2025) <span class="collapse-icon" id="day2-icon">▶</span></h4>
+                </div>
+                <div class="day-content collapsed" id="day2-content">
+                    <div class="schedule-layout">
+                        <div class="schedule-image-column">
+                            <div class="schedule-image-placeholder">
+                                <p>Day 2 schedule graphic will be added here</p>
+                            </div>
+                        </div>
+                        <div class="schedule-games-column">
+                            <h4>Tomorrow's Games (July 4, 2025)</h4>
+                            <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">Games to be announced</p>
+                            <div id="games-list-day2">
+                                <p>Loading schedule data...</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -842,6 +932,104 @@
             return null;
         }
 
+        // Update schedule for a specific day
+        function updateDaySchedule(scheduleDate, dayId, currentDate, currentTime) {
+            const daySchedule = scheduleData[scheduleDate];
+            const gamesListEl = document.getElementById(`games-list-${dayId}`);
+            
+            if (!daySchedule) {
+                if (gamesListEl) {
+                    gamesListEl.innerHTML = '<p>No games scheduled for this day.</p>';
+                }
+                return;
+            }
+
+            if (gamesListEl) {
+                let gamesList = '';
+                const allGames = [];
+                
+                // Collect all games from all tracks
+                for (let i = 1; i <= 5; i++) {
+                    const trackKey = `track${i}`;
+                    const trackGames = daySchedule[trackKey];
+                    if (trackGames) {
+                        trackGames.forEach((game, gameIndex) => {
+                            // Convert Austria time to local time
+                            const localGameDate = convertAustriaTimeToLocal(game.time, scheduleDate);
+                            const localTimeString = formatLocalTime(localGameDate);
+                            const gameStartTime = localGameDate.getTime();
+                            const gameEndTime = gameStartTime + (120 * 60 * 1000); // 2:00 = 120 minutes
+                            
+                            const isLive = currentTime >= gameStartTime && currentTime < gameEndTime;
+                            const minutesElapsed = isLive ? Math.floor((currentTime - gameStartTime) / (60 * 1000)) : 0;
+                            
+                            allGames.push({
+                                ...game,
+                                time: localTimeString, // Display local time
+                                originalTime: game.time, // Keep original for reference
+                                track: i,
+                                gameNumber: gameIndex + 1, // Game number starts from 1
+                                isLive: isLive,
+                                minutesElapsed: minutesElapsed,
+                                gameStartTime: gameStartTime,
+                                gameEndTime: gameEndTime
+                            });
+                        });
+                    }
+                }
+                
+                // Sort games by time
+                allGames.sort((a, b) => {
+                    return a.gameStartTime - b.gameStartTime;
+                });
+                
+                // Generate games list HTML
+                allGames.forEach(game => {
+                    const starredClass = game.starred ? 'starred' : '';
+                    const liveClass = game.isLive ? 'live' : '';
+                    const combinedClass = `${starredClass} ${liveClass}`.trim();
+                    
+                    const starIcon = game.starred ? '<span class="star-icon">⭐</span>' : '';
+                    const liveIndicator = game.isLive ? '<span class="live-indicator-text">🔴 LIVE</span>' : '';
+                    const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
+                    
+                    // Get score for this game - determine day number based on schedule date
+                    const dayNumber = scheduleDate === 'July 3, 2025' ? 1 : 2;
+                    const score = getScoreForGame(dayNumber, game.track, game.gameNumber, game.isLive);
+                    const scoreDisplay = score ? `<span class="game-score">${score}</span>` : '';
+                    
+                    // Track 1 has a different ID, tracks 2-5 are sequential starting from 5003477
+                    const trackId = game.track === 1 ? 4995890 : 5003475 + game.track;
+                    const streamUrl = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
+                    
+                    gamesList += `
+                        <div class="game-item ${combinedClass}">
+                            <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} ${liveIndicator} ${elapsedTime} ${scoreDisplay}
+                            <div class="game-track">
+                                <a href="${streamUrl}" target="derby-stream" class="track-link">Track ${game.track}</a>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                gamesListEl.innerHTML = gamesList;
+            }
+        }
+
+        // Toggle day section collapse/expand
+        function toggleDay(dayId) {
+            const content = document.getElementById(`${dayId}-content`);
+            const icon = document.getElementById(`${dayId}-icon`);
+            
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                icon.textContent = '▼';
+            } else {
+                content.classList.add('collapsed');
+                icon.textContent = '▶';
+            }
+        }
+
         // Update countdown display
         function updateCountdown() {
             const now = Date.now();
@@ -914,6 +1102,11 @@
             const currentDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
             const currentTime = now.getTime(); // Use timestamp for accurate comparison
             
+            // Update both day 1 and day 2
+            updateDaySchedule('July 3, 2025', 'day1', currentDate, currentTime);
+            updateDaySchedule('July 4, 2025', 'day2', currentDate, currentTime);
+            
+            // Update track schedules (still based on current day)
             const todaySchedule = scheduleData[currentDate];
             
             if (!todaySchedule) {
@@ -927,86 +1120,10 @@
                         `;
                     }
                 }
-                
-                // Update games list
-                const gamesListEl = document.getElementById('games-list');
-                if (gamesListEl) {
-                    gamesListEl.innerHTML = '<p>No games scheduled for today. Event runs July 3-6, 2025.</p>';
-                }
                 return;
             }
 
-            // Create games list
-            const gamesListEl = document.getElementById('games-list');
-            if (gamesListEl) {
-                let gamesList = '';
-                const allGames = [];
-                
-                // Collect all games from all tracks
-                for (let i = 1; i <= 5; i++) {
-                    const trackKey = `track${i}`;
-                    const trackGames = todaySchedule[trackKey];
-                    if (trackGames) {
-                        trackGames.forEach((game, gameIndex) => {
-                            // Convert Austria time to local time
-                            const localGameDate = convertAustriaTimeToLocal(game.time, currentDate);
-                            const localTimeString = formatLocalTime(localGameDate);
-                            const gameStartTime = localGameDate.getTime();
-                            const gameEndTime = gameStartTime + (120 * 60 * 1000); // 2:00 = 120 minutes
-                            
-                            const isLive = currentTime >= gameStartTime && currentTime < gameEndTime;
-                            const minutesElapsed = isLive ? Math.floor((currentTime - gameStartTime) / (60 * 1000)) : 0;
-                            
-                            allGames.push({
-                                ...game,
-                                time: localTimeString, // Display local time
-                                originalTime: game.time, // Keep original for reference
-                                track: i,
-                                gameNumber: gameIndex + 1, // Game number starts from 1
-                                isLive: isLive,
-                                minutesElapsed: minutesElapsed,
-                                gameStartTime: gameStartTime,
-                                gameEndTime: gameEndTime
-                            });
-                        });
-                    }
-                }
-                
-                // Sort games by time
-                allGames.sort((a, b) => {
-                    return a.gameStartTime - b.gameStartTime;
-                });
-                
-                // Generate games list HTML
-                allGames.forEach(game => {
-                    const starredClass = game.starred ? 'starred' : '';
-                    const liveClass = game.isLive ? 'live' : '';
-                    const combinedClass = `${starredClass} ${liveClass}`.trim();
-                    
-                    const starIcon = game.starred ? '<span class="star-icon">⭐</span>' : '';
-                    const liveIndicator = game.isLive ? '<span class="live-indicator-text">🔴 LIVE</span>' : '';
-                    const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
-                    
-                    // Get score for this game (assuming day 1 for now - could be enhanced later)
-                    const score = getScoreForGame(1, game.track, game.gameNumber, game.isLive);
-                    const scoreDisplay = score ? `<span class="game-score">${score}</span>` : '';
-                    
-                    // Track 1 has a different ID, tracks 2-5 are sequential starting from 5003477
-                    const trackId = game.track === 1 ? 4995890 : 5003475 + game.track;
-                    const streamUrl = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
-                    
-                    gamesList += `
-                        <div class="game-item ${combinedClass}">
-                            <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} ${liveIndicator} ${elapsedTime} ${scoreDisplay}
-                            <div class="game-track">
-                                <a href="${streamUrl}" target="derby-stream" class="track-link">Track ${game.track}</a>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                gamesListEl.innerHTML = gamesList;
-            }
+            // Track schedules are handled separately in updateDaySchedule function
 
             // Update each track
             for (let i = 1; i <= 5; i++) {

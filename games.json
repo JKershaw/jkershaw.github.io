@@ -36,11 +36,40 @@
     ]
   },
   "July 4, 2025": {
-    "track1": [],
-    "track2": [],
-    "track3": [],
-    "track4": [],
-    "track5": []
+    "track1": [
+      { "time": "09:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "17:30", "teams": "TBA v TBA", "duration": 60, "starred": false }
+    ],
+    "track2": [
+      { "time": "09:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "11:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "13:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "16:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "18:00", "teams": "TBA v TBA", "duration": 60, "starred": false }
+    ],
+    "track3": [
+      { "time": "09:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "17:30", "teams": "TBA v TBA", "duration": 60, "starred": false }
+    ],
+    "track4": [
+      { "time": "09:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "11:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "13:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "16:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "18:00", "teams": "TBA v TBA", "duration": 60, "starred": false }
+    ],
+    "track5": [
+      { "time": "09:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "TBA v TBA", "duration": 60, "starred": false }
+    ]
   },
   "July 5, 2025": {
     "track1": [],
