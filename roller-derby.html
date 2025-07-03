@@ -241,6 +241,26 @@
             margin: 0;
         }
 
+        .track-schedule {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .current-game {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .next-game {
+            color: #666;
+            font-size: 0.85em;
+        }
+
         @media (max-width: 768px) {
             .streams-grid {
                 grid-template-columns: 1fr;
@@ -302,6 +322,10 @@
                     <div class="track-title">Track 1</div>
                     <div class="live-indicator">🔴 LIVE</div>
                 </div>
+                <div class="track-schedule" id="track1-schedule">
+                    <div class="current-game">Loading schedule...</div>
+                    <div class="next-game"></div>
+                </div>
                 <div class="stream-embed">
                     <a href="https://rollerderbyworldcup.live/item.html?id=5003477" target="_blank" class="stream-button">
                         <div class="stream-button-content">
@@ -319,6 +343,10 @@
                 <div class="stream-header">
                     <div class="track-title">Track 2</div>
                     <div class="live-indicator">🔴 LIVE</div>
+                </div>
+                <div class="track-schedule" id="track2-schedule">
+                    <div class="current-game">Loading schedule...</div>
+                    <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
                     <a href="https://rollerderbyworldcup.live/item.html?id=5003478" target="_blank" class="stream-button">
@@ -338,6 +366,10 @@
                     <div class="track-title">Track 3</div>
                     <div class="live-indicator">🔴 LIVE</div>
                 </div>
+                <div class="track-schedule" id="track3-schedule">
+                    <div class="current-game">Loading schedule...</div>
+                    <div class="next-game"></div>
+                </div>
                 <div class="stream-embed">
                     <a href="https://rollerderbyworldcup.live/item.html?id=5003479" target="_blank" class="stream-button">
                         <div class="stream-button-content">
@@ -355,6 +387,10 @@
                 <div class="stream-header">
                     <div class="track-title">Track 4</div>
                     <div class="live-indicator">🔴 LIVE</div>
+                </div>
+                <div class="track-schedule" id="track4-schedule">
+                    <div class="current-game">Loading schedule...</div>
+                    <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
                     <a href="https://rollerderbyworldcup.live/item.html?id=5003480" target="_blank" class="stream-button">
@@ -374,6 +410,10 @@
                     <div class="track-title">Track 5</div>
                     <div class="live-indicator">🔴 LIVE</div>
                 </div>
+                <div class="track-schedule" id="track5-schedule">
+                    <div class="current-game">Loading schedule...</div>
+                    <div class="next-game"></div>
+                </div>
                 <div class="stream-embed">
                     <a href="https://rollerderbyworldcup.live/item.html?id=5003481" target="_blank" class="stream-button">
                         <div class="stream-button-content">
@@ -388,5 +428,125 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Sample schedule data - times converted to local time (CET - 1 hour)
+        const scheduleData = {
+            'July 3, 2025': {
+                track1: [
+                    { time: '8:00', teams: 'Opening Ceremony', duration: 30 },
+                    { time: '9:00', teams: 'USA vs Canada', duration: 60 },
+                    { time: '11:00', teams: 'UK vs Australia', duration: 60 },
+                    { time: '13:00', teams: 'Germany vs France', duration: 60 },
+                    { time: '15:00', teams: 'Sweden vs Norway', duration: 60 },
+                    { time: '17:00', teams: 'Netherlands vs Belgium', duration: 60 }
+                ],
+                track2: [
+                    { time: '9:30', teams: 'Japan vs South Korea', duration: 60 },
+                    { time: '11:30', teams: 'Italy vs Spain', duration: 60 },
+                    { time: '13:30', teams: 'Denmark vs Finland', duration: 60 },
+                    { time: '15:30', teams: 'Austria vs Switzerland', duration: 60 },
+                    { time: '17:30', teams: 'Brazil vs Argentina', duration: 60 }
+                ],
+                track3: [
+                    { time: '10:00', teams: 'New Zealand vs South Africa', duration: 60 },
+                    { time: '12:00', teams: 'Chile vs Colombia', duration: 60 },
+                    { time: '14:00', teams: 'Mexico vs Peru', duration: 60 },
+                    { time: '16:00', teams: 'Ireland vs Scotland', duration: 60 },
+                    { time: '18:00', teams: 'Poland vs Czech Republic', duration: 60 }
+                ],
+                track4: [
+                    { time: '10:30', teams: 'Hungary vs Slovenia', duration: 60 },
+                    { time: '12:30', teams: 'Croatia vs Serbia', duration: 60 },
+                    { time: '14:30', teams: 'Latvia vs Lithuania', duration: 60 },
+                    { time: '16:30', teams: 'Estonia vs Belarus', duration: 60 },
+                    { time: '18:30', teams: 'Ukraine vs Moldova', duration: 60 }
+                ],
+                track5: [
+                    { time: '11:00', teams: 'Portugal vs Greece', duration: 60 },
+                    { time: '13:00', teams: 'Turkey vs Cyprus', duration: 60 },
+                    { time: '15:00', teams: 'Israel vs Malta', duration: 60 },
+                    { time: '17:00', teams: 'Luxembourg vs Monaco', duration: 60 },
+                    { time: '19:00', teams: 'Iceland vs Faroe Islands', duration: 60 }
+                ]
+            }
+        };
+
+        function updateSchedule() {
+            const now = new Date();
+            const currentDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const currentTime = now.getHours() * 60 + now.getMinutes(); // minutes since midnight
+            
+            const todaySchedule = scheduleData[currentDate];
+            
+            if (!todaySchedule) {
+                // No schedule for today, show event info
+                for (let i = 1; i <= 5; i++) {
+                    const scheduleEl = document.getElementById(`track${i}-schedule`);
+                    if (scheduleEl) {
+                        scheduleEl.innerHTML = `
+                            <div class="current-game">Event: July 3-6, 2025</div>
+                            <div class="next-game">Check schedule image for match times</div>
+                        `;
+                    }
+                }
+                return;
+            }
+
+            // Update each track
+            for (let i = 1; i <= 5; i++) {
+                const trackKey = `track${i}`;
+                const trackGames = todaySchedule[trackKey];
+                const scheduleEl = document.getElementById(`${trackKey}-schedule`);
+                
+                if (!scheduleEl || !trackGames) continue;
+
+                let currentGame = null;
+                let nextGame = null;
+
+                // Find current and next games
+                for (const game of trackGames) {
+                    const [hours, minutes] = game.time.split(':').map(Number);
+                    const gameStart = hours * 60 + minutes;
+                    const gameEnd = gameStart + game.duration;
+
+                    if (currentTime >= gameStart && currentTime < gameEnd) {
+                        currentGame = game;
+                    } else if (currentTime < gameStart && !nextGame) {
+                        nextGame = game;
+                    }
+                }
+
+                // If no current game, find the next one
+                if (!currentGame && !nextGame) {
+                    nextGame = trackGames.find(game => {
+                        const [hours, minutes] = game.time.split(':').map(Number);
+                        const gameStart = hours * 60 + minutes;
+                        return currentTime < gameStart;
+                    });
+                }
+
+                // Update display
+                let html = '';
+                if (currentGame) {
+                    html += `<div class="current-game">🏆 NOW: ${currentGame.teams}</div>`;
+                } else {
+                    html += `<div class="current-game">⏸️ No current match</div>`;
+                }
+
+                if (nextGame) {
+                    html += `<div class="next-game">⏭️ Next: ${nextGame.time} - ${nextGame.teams}</div>`;
+                } else {
+                    html += `<div class="next-game">No more matches today</div>`;
+                }
+
+                scheduleEl.innerHTML = html;
+            }
+        }
+
+        // Update schedule on page load and every minute
+        document.addEventListener('DOMContentLoaded', updateSchedule);
+        setInterval(updateSchedule, 60000); // Update every minute
+    </script>
 </body>
 </html>
