@@ -519,6 +519,27 @@
             .stream-text p {
                 font-size: 0.8em;
             }
+            
+            .game-item {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .game-main-line {
+                font-weight: bold;
+            }
+            
+            .game-details-line {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 0.9em;
+            }
+            
+            .game-track {
+                margin-top: 0;
+            }
         }
     </style>
 </head>
@@ -960,9 +981,14 @@
                     
                     gamesList += `
                         <div class="game-item ${combinedClass}">
-                            <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} ${liveIndicator} ${elapsedTime} ${scoreDisplay}
-                            <div class="game-track">
-                                <a href="${streamUrl}" target="derby-stream" class="track-link">Track ${game.track}</a>
+                            <div class="game-main-line">
+                                <span class="game-time">${game.time}</span> - ${game.teams}
+                            </div>
+                            <div class="game-details-line">
+                                <span>${starIcon} ${liveIndicator} ${elapsedTime} ${scoreDisplay}</span>
+                                <div class="game-track">
+                                    <a href="${streamUrl}" target="derby-stream" class="track-link">Track ${game.track}</a>
+                                </div>
                             </div>
                         </div>
                     `;
