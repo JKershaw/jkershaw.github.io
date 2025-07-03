@@ -692,6 +692,52 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Day 3 -->
+            <div class="day-section">
+                <div class="day-header" onclick="toggleDay('day3')">
+                    <h4 id="day3-title">Day 3 - July 5, 2025 <span class="collapse-icon" id="day3-icon">▶</span></h4>
+                </div>
+                <div class="day-content collapsed" id="day3-content">
+                    <div class="schedule-layout">
+                        <div class="schedule-image-column">
+                            <div class="schedule-image-placeholder">
+                                <p>Day 3 schedule graphic will be added here</p>
+                            </div>
+                        </div>
+                        <div class="schedule-games-column">
+                            <h4 id="day3-games-title">July 5, 2025 Games</h4>
+                            <p id="day3-description" style="font-size: 0.9em; color: #666; margin-bottom: 15px;">⭐ = Games Nuke and Sausage want to watch | 🔥 = Close game (live)</p>
+                            <div id="games-list-day3">
+                                <p>Loading schedule data...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Day 4 -->
+            <div class="day-section">
+                <div class="day-header" onclick="toggleDay('day4')">
+                    <h4 id="day4-title">Day 4 - July 6, 2025 <span class="collapse-icon" id="day4-icon">▶</span></h4>
+                </div>
+                <div class="day-content collapsed" id="day4-content">
+                    <div class="schedule-layout">
+                        <div class="schedule-image-column">
+                            <div class="schedule-image-placeholder">
+                                <p>Day 4 schedule graphic will be added here</p>
+                            </div>
+                        </div>
+                        <div class="schedule-games-column">
+                            <h4 id="day4-games-title">July 6, 2025 Games</h4>
+                            <p id="day4-description" style="font-size: 0.9em; color: #666; margin-bottom: 15px;">⭐ = Games Nuke and Sausage want to watch | 🔥 = Close game (live)</p>
+                            <div id="games-list-day4">
+                                <p>Loading schedule data...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -993,7 +1039,14 @@
                     const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
                     
                     // Get score for this game - determine day number based on schedule date
-                    const dayNumber = scheduleDate === 'July 3, 2025' ? 1 : 2;
+                    let dayNumber;
+                    switch(scheduleDate) {
+                        case 'July 3, 2025': dayNumber = 1; break;
+                        case 'July 4, 2025': dayNumber = 2; break;
+                        case 'July 5, 2025': dayNumber = 3; break;
+                        case 'July 6, 2025': dayNumber = 4; break;
+                        default: dayNumber = 1;
+                    }
                     const score = getScoreForGame(dayNumber, game.track, game.gameNumber, game.isLive);
                     const scoreDisplay = score ? `<span class="game-score">${score}</span>` : '';
                     
@@ -1092,70 +1145,74 @@
             } catch (error) {
                 console.error('Error loading schedule data:', error);
                 // Fallback to show error message
-                const gamesListDay1El = document.getElementById('games-list-day1');
-                const gamesListDay2El = document.getElementById('games-list-day2');
-                if (gamesListDay1El) {
-                    gamesListDay1El.innerHTML = '<p>Error loading schedule data. Please check games.json file.</p>';
-                }
-                if (gamesListDay2El) {
-                    gamesListDay2El.innerHTML = '<p>Error loading schedule data. Please check games.json file.</p>';
-                }
+                ['day1', 'day2', 'day3', 'day4'].forEach(dayId => {
+                    const gamesListEl = document.getElementById(`games-list-${dayId}`);
+                    if (gamesListEl) {
+                        gamesListEl.innerHTML = '<p>Error loading schedule data. Please check games.json file.</p>';
+                    }
+                });
             }
         }
 
         // Update day labels based on current date
         function updateDayLabels(currentDate) {
-            const day1Date = 'July 3, 2025';
-            const day2Date = 'July 4, 2025';
+            const dates = [
+                { date: 'July 3, 2025', dayNum: 1 },
+                { date: 'July 4, 2025', dayNum: 2 },
+                { date: 'July 5, 2025', dayNum: 3 },
+                { date: 'July 6, 2025', dayNum: 4 }
+            ];
             
-            // Determine relative labels
-            let day1Label, day2Label;
-            let day1GamesLabel, day2GamesLabel;
-            let day2Description;
+            const currentDayIndex = dates.findIndex(d => d.date === currentDate);
             
-            if (currentDate === day1Date) {
-                day1Label = 'Day 1 - Today (July 3, 2025)';
-                day2Label = 'Day 2 - Tomorrow (July 4, 2025)';
-                day1GamesLabel = "Today's Games (July 3, 2025)";
-                day2GamesLabel = "Tomorrow's Games (July 4, 2025)";
-                day2Description = "⭐ = Games Nuke and Sausage want to watch | 🔥 = Close game (live)";
-            } else if (currentDate === day2Date) {
-                day1Label = 'Day 1 - Yesterday (July 3, 2025)';
-                day2Label = 'Day 2 - Today (July 4, 2025)';
-                day1GamesLabel = "Yesterday's Games (July 3, 2025)";
-                day2GamesLabel = "Today's Games (July 4, 2025)";
-                day2Description = "⭐ = Games Nuke and Sausage want to watch | 🔥 = Close game (live)";
-            } else {
-                // Default to date labels when not on tournament days
-                day1Label = 'Day 1 - July 3, 2025';
-                day2Label = 'Day 2 - July 4, 2025';
-                day1GamesLabel = 'July 3, 2025 Games';
-                day2GamesLabel = 'July 4, 2025 Games';
-                day2Description = "⭐ = Games Nuke and Sausage want to watch | 🔥 = Close game (live)";
-            }
-            
-            // Update the titles
-            const day1TitleEl = document.getElementById('day1-title');
-            const day2TitleEl = document.getElementById('day2-title');
-            const day1GamesTitleEl = document.getElementById('day1-games-title');
-            const day2GamesTitleEl = document.getElementById('day2-games-title');
-            const day2DescriptionEl = document.getElementById('day2-description');
-            
-            if (day1TitleEl) {
-                day1TitleEl.innerHTML = `${day1Label} <span class="collapse-icon" id="day1-icon">${day1TitleEl.querySelector('.collapse-icon').textContent}</span>`;
-            }
-            if (day2TitleEl) {
-                day2TitleEl.innerHTML = `${day2Label} <span class="collapse-icon" id="day2-icon">${day2TitleEl.querySelector('.collapse-icon').textContent}</span>`;
-            }
-            if (day1GamesTitleEl) {
-                day1GamesTitleEl.textContent = day1GamesLabel;
-            }
-            if (day2GamesTitleEl) {
-                day2GamesTitleEl.textContent = day2GamesLabel;
-            }
-            if (day2DescriptionEl) {
-                day2DescriptionEl.textContent = day2Description;
-            }
+            dates.forEach((dayInfo, index) => {
+                const dayId = `day${dayInfo.dayNum}`;
+                let dayLabel, gamesLabel;
+                
+                if (currentDayIndex === -1) {
+                    // Not on a tournament day - use date labels
+                    dayLabel = `Day ${dayInfo.dayNum} - ${dayInfo.date}`;
+                    gamesLabel = `${dayInfo.date} Games`;
+                } else {
+                    // On a tournament day - use relative labels
+                    const dayDiff = index - currentDayIndex;
+                    
+                    if (dayDiff === 0) {
+                        dayLabel = `Day ${dayInfo.dayNum} - Today (${dayInfo.date})`;
+                        gamesLabel = `Today's Games (${dayInfo.date})`;
+                    } else if (dayDiff === 1) {
+                        dayLabel = `Day ${dayInfo.dayNum} - Tomorrow (${dayInfo.date})`;
+                        gamesLabel = `Tomorrow's Games (${dayInfo.date})`;
+                    } else if (dayDiff === -1) {
+                        dayLabel = `Day ${dayInfo.dayNum} - Yesterday (${dayInfo.date})`;
+                        gamesLabel = `Yesterday's Games (${dayInfo.date})`;
+                    } else if (dayDiff > 1) {
+                        const daysAhead = dayDiff;
+                        dayLabel = `Day ${dayInfo.dayNum} - In ${daysAhead} days (${dayInfo.date})`;
+                        gamesLabel = `${dayInfo.date} Games`;
+                    } else {
+                        const daysAgo = Math.abs(dayDiff);
+                        dayLabel = `Day ${dayInfo.dayNum} - ${daysAgo} days ago (${dayInfo.date})`;
+                        gamesLabel = `${dayInfo.date} Games`;
+                    }
+                }
+                
+                // Update elements
+                const titleEl = document.getElementById(`${dayId}-title`);
+                const gamesTitleEl = document.getElementById(`${dayId}-games-title`);
+                const descriptionEl = document.getElementById(`${dayId}-description`);
+                
+                if (titleEl) {
+                    const currentIcon = titleEl.querySelector('.collapse-icon').textContent;
+                    titleEl.innerHTML = `${dayLabel} <span class="collapse-icon" id="${dayId}-icon">${currentIcon}</span>`;
+                }
+                if (gamesTitleEl) {
+                    gamesTitleEl.textContent = gamesLabel;
+                }
+                if (descriptionEl) {
+                    descriptionEl.textContent = "⭐ = Games Nuke and Sausage want to watch | 🔥 = Close game (live)";
+                }
+            });
         }
 
         function updateSchedule() {
@@ -1166,9 +1223,11 @@
             // Update day labels dynamically
             updateDayLabels(currentDate);
             
-            // Update both day 1 and day 2
+            // Update all 4 days
             updateDaySchedule('July 3, 2025', 'day1', currentDate, currentTime);
             updateDaySchedule('July 4, 2025', 'day2', currentDate, currentTime);
+            updateDaySchedule('July 5, 2025', 'day3', currentDate, currentTime);
+            updateDaySchedule('July 6, 2025', 'day4', currentDate, currentTime);
             
             // Update track schedules (still based on current day)
             const todaySchedule = scheduleData[currentDate];
