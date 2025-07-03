@@ -58,11 +58,11 @@
       { "time": "17:30", "teams": "Puerto Rico v Poland", "duration": 60, "starred": false }
     ],
     "track4": [
-      { "time": "09:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "11:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "13:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "16:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "18:00", "teams": "TBA v TBA", "duration": 60, "starred": false }
+      { "time": "09:30", "teams": "Spain v Wales", "duration": 60, "starred": false },
+      { "time": "11:30", "teams": "Jewish RD v Denmark", "duration": 60, "starred": false },
+      { "time": "13:30", "teams": "Nederland v Portugal", "duration": 60, "starred": false },
+      { "time": "16:00", "teams": "Japan v Greece", "duration": 60, "starred": false },
+      { "time": "18:00", "teams": "Taiwan v Latvia", "duration": 60, "starred": false }
     ],
     "track5": [
       { "time": "09:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
