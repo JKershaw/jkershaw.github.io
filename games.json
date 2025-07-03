@@ -15,18 +15,18 @@
       { "time": "18:00", "teams": "Indigenous v Japan", "duration": 60, "starred": false }
     ],
     "track3": [
-      { "time": "10:00", "teams": "Japan v South Korea", "duration": 60, "starred": false },
-      { "time": "12:00", "teams": "New Zealand v South Africa", "duration": 60, "starred": false },
-      { "time": "14:00", "teams": "Brazil v Argentina", "duration": 60, "starred": true },
-      { "time": "16:00", "teams": "Mexico v Colombia", "duration": 60, "starred": false },
-      { "time": "18:00", "teams": "Peru v Ecuador", "duration": 60, "starred": false }
+      { "time": "9:00", "teams": "Finland v Germany", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "Fuego Latino v Wales", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "Brazil v Vietnam", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "Czech v Babushka", "duration": 60, "starred": false },
+      { "time": "17:30", "teams": "Desi v Iceland", "duration": 60, "starred": false }
     ],
     "track4": [
-      { "time": "10:30", "teams": "Latvia v Lithuania", "duration": 60, "starred": false },
-      { "time": "12:30", "teams": "Estonia v Belarus", "duration": 60, "starred": false },
-      { "time": "14:30", "teams": "Ukraine v Moldova", "duration": 60, "starred": false },
-      { "time": "16:30", "teams": "Romania v Bulgaria", "duration": 60, "starred": false },
-      { "time": "18:30", "teams": "Croatia v Serbia", "duration": 60, "starred": false }
+      { "time": "9:30", "teams": "Sweden v Scotland", "duration": 60, "starred": false },
+      { "time": "11:30", "teams": "Jewish RD v Belgium", "duration": 60, "starred": false },
+      { "time": "13:30", "teams": "Nederland v Taiwan", "duration": 60, "starred": false },
+      { "time": "16:00", "teams": "Italy v Puerto Rico", "duration": 60, "starred": false },
+      { "time": "18:00", "teams": "Switzerland v Poland", "duration": 60, "starred": false }
     ],
     "track5": [
       { "time": "11:00", "teams": "Portugal v Greece", "duration": 60, "starred": false },
