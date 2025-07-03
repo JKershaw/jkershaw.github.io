@@ -5,7 +5,7 @@
       { "time": "11:00", "teams": "Canada v Colombia", "duration": 60, "starred": false },
       { "time": "13:00", "teams": "France v Austria", "duration": 60, "starred": false },
       { "time": "15:30", "teams": "Philippines v Latvia", "duration": 60, "starred": false },
-      { "time": "17:30", "teams": "Portugal v Slovenia", "duration": 60, "starred": false }
+      { "time": "17:30", "teams": "Portugal v Slovenia", "duration": 60, "starred": true }
     ],
     "track2": [
       { "time": "09:30", "teams": "Australia v Salaam", "duration": 60, "starred": false },
