@@ -287,6 +287,19 @@
             font-size: 0.8em;
         }
 
+        .track-link {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .track-link:hover {
+            color: #c0392b;
+            text-decoration: underline;
+        }
+
         .game-item.starred {
             background: linear-gradient(135deg, #fff3cd, #ffeaa7);
             border-left: 4px solid #f39c12;
@@ -632,10 +645,15 @@
                     const liveIndicator = game.isLive ? '<span class="live-indicator-text">🔴 LIVE</span>' : '';
                     const elapsedTime = game.isLive ? `<span class="time-elapsed">(${game.minutesElapsed} min)</span>` : '';
                     
+                    const trackId = 5003477 + (game.track - 1); // Track 1 = 5003477, Track 2 = 5003478, etc.
+                    const streamUrl = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
+                    
                     gamesList += `
                         <div class="game-item ${combinedClass}">
                             <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} ${liveIndicator} ${elapsedTime}
-                            <div class="game-track">Track ${game.track}</div>
+                            <div class="game-track">
+                                <a href="${streamUrl}" target="_blank" class="track-link">Track ${game.track}</a>
+                            </div>
                         </div>
                     `;
                 });
