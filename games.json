@@ -9,23 +9,23 @@
     ],
     "track2": [
       { "time": "09:30", "teams": "Australia v Salaam", "duration": 60, "starred": false },
-      { "time": "11:30", "teams": "England v Mexico", "duration": 60, "starred": false },
+      { "time": "11:30", "teams": "England v Mexico", "duration": 60, "starred": true },
       { "time": "13:30", "teams": "Argentina v Ireland", "duration": 60, "starred": false },
       { "time": "16:00", "teams": "Korea v Greece", "duration": 60, "starred": false },
       { "time": "18:00", "teams": "Indigenous v Japan", "duration": 60, "starred": false }
     ],
     "track3": [
       { "time": "09:00", "teams": "Finland v Germany", "duration": 60, "starred": false },
-      { "time": "11:00", "teams": "Fuego Latino v Wales", "duration": 60, "starred": false },
-      { "time": "13:00", "teams": "Brazil v Vietnam", "duration": 60, "starred": false },
-      { "time": "15:30", "teams": "Czech v Babushka", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "Fuego Latino v Wales", "duration": 60, "starred": true },
+      { "time": "13:00", "teams": "Brazil v Vietnam", "duration": 60, "starred": true },
+      { "time": "15:30", "teams": "Czech v Babushka", "duration": 60, "starred": true },
       { "time": "17:30", "teams": "Desi v Iceland", "duration": 60, "starred": false }
     ],
     "track4": [
       { "time": "09:30", "teams": "Sweden v Scotland", "duration": 60, "starred": false },
       { "time": "11:30", "teams": "Jewish RD v Belgium", "duration": 60, "starred": false },
       { "time": "13:30", "teams": "Nederland v Taiwan", "duration": 60, "starred": false },
-      { "time": "16:00", "teams": "Italy v Puerto Rico", "duration": 60, "starred": false },
+      { "time": "16:00", "teams": "Italy v Puerto Rico", "duration": 60, "starred": true },
       { "time": "18:00", "teams": "Switzerland v Poland", "duration": 60, "starred": false }
     ],
     "track5": [
