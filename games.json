@@ -73,38 +73,38 @@
   },
   "July 5, 2025": {
     "track1": [
-      { "time": "09:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "11:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "13:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "15:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "17:30", "teams": "TBA v TBA", "duration": 60, "starred": false }
+      { "time": "09:00", "teams": "France v Nederland", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "Sweden v Switzerland", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "Scotland v Indigenous", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "Austria v Vietnam", "duration": 60, "starred": false },
+      { "time": "17:30", "teams": "Quarter Final", "duration": 60, "starred": false }
     ],
     "track2": [
-      { "time": "09:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "11:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "13:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "16:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "18:00", "teams": "TBA v TBA", "duration": 60, "starred": false }
+      { "time": "09:30", "teams": "USA v West Indies", "duration": 60, "starred": false },
+      { "time": "11:30", "teams": "Finland v Belgium", "duration": 60, "starred": false },
+      { "time": "13:30", "teams": "Spain v Japan", "duration": 60, "starred": false },
+      { "time": "16:00", "teams": "Chile v Korea", "duration": 60, "starred": false }
     ],
     "track3": [
-      { "time": "09:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "11:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "13:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "15:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "17:30", "teams": "TBA v TBA", "duration": 60, "starred": false }
+      { "time": "09:00", "teams": "Canada v Czech", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "Argentina v Black Diaspora", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "Fuego Latino v Chinese Nations", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "Brazil v Babushka", "duration": 60, "starred": false },
+      { "time": "17:30", "teams": "Quarter Final", "duration": 60, "starred": false }
     ],
     "track4": [
-      { "time": "09:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "11:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "13:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "16:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "18:00", "teams": "TBA v TBA", "duration": 60, "starred": false }
+      { "time": "09:30", "teams": "England v Italy", "duration": 60, "starred": false },
+      { "time": "11:30", "teams": "Jewish RD v Norway", "duration": 60, "starred": false },
+      { "time": "13:30", "teams": "Germany v Portugal", "duration": 60, "starred": false },
+      { "time": "16:00", "teams": "Puerto Rico v Slovenia", "duration": 60, "starred": false },
+      { "time": "18:00", "teams": "Quarter Final", "duration": 60, "starred": false }
     ],
     "track5": [
-      { "time": "09:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "11:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "13:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "15:30", "teams": "TBA v TBA", "duration": 60, "starred": false }
+      { "time": "09:00", "teams": "Australia v Philippines", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "Maxico v New Zealand", "duration": 60, "starred": false },
+      { "time": "13:00", "teams": "Iceland v Taiwan", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "Ireland v South Africa", "duration": 60, "starred": false },
+      { "time": "17:30", "teams": "Quarter Final", "duration": 60, "starred": false }
     ]
   },
   "July 6, 2025": {
