@@ -1041,8 +1041,19 @@
                     const score = getScoreForGame(dayNumber, game.track, game.gameNumber, game.isLive);
                     const scoreDisplay = score ? `<span class="game-score">${score}</span>` : '';
                     
-                    // Track 1 has a different ID, tracks 2-5 are sequential starting from 5003477
-                    const trackId = game.track === 1 ? 4995890 : 5003475 + game.track;
+                    // Track IDs vary by day
+                    let trackId;
+                    if (dayNumber === 1) {
+                        // Day 1 track IDs
+                        trackId = game.track === 1 ? 4995890 : 5003475 + game.track;
+                    } else if (dayNumber === 2) {
+                        // Day 2 track IDs
+                        const day2TrackIds = [5003568, 5003572, 5003573, 5003574, 5003575];
+                        trackId = day2TrackIds[game.track - 1];
+                    } else {
+                        // Default to day 1 IDs for other days
+                        trackId = game.track === 1 ? 4995890 : 5003475 + game.track;
+                    }
                     const streamUrl = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
                     
                     gamesList += `
