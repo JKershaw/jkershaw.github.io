@@ -101,7 +101,7 @@
     ],
     "track5": [
       { "time": "09:00", "teams": "Australia v Philippines", "duration": 60, "starred": false },
-      { "time": "11:00", "teams": "Maxico v New Zealand", "duration": 60, "starred": false },
+      { "time": "11:00", "teams": "Mexico v New Zealand", "duration": 60, "starred": false },
       { "time": "13:00", "teams": "Iceland v Taiwan", "duration": 60, "starred": true },
       { "time": "15:30", "teams": "Ireland v South Africa", "duration": 60, "starred": false },
       { "time": "17:30", "teams": "Quarter Final", "duration": 60, "starred": false }
