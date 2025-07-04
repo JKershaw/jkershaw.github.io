@@ -40,7 +40,7 @@
       { "time": "09:00", "teams": "USA v Fuego Latino", "duration": 60, "starred": false },
       { "time": "11:00", "teams": "Canada v Black Diaspora", "duration": 60, "starred": true },
       { "time": "13:00", "teams": "France v Finland", "duration": 60, "starred": false },
-      { "time": "15:30", "teams": "Switzerland v Iceland", "duration": 60, "starred": false },
+      { "time": "15:30", "teams": "Switzerland v Iceland", "duration": 60, "starred": true },
       { "time": "17:30", "teams": "Chinese Nations v South Africa", "duration": 60, "starred": false }
     ],
     "track2": [
