@@ -1296,14 +1296,16 @@
                 let nextGame = null;
 
                 // Find current and next games with timezone conversion
+                let gameIndex = 0;
                 for (const game of trackGames) {
+                    gameIndex++;
                     const localGameDate = convertAustriaTimeToLocal(game.time, currentDate);
                     const gameStartTime = localGameDate.getTime();
                     const gameEndTime = gameStartTime + (120 * 60 * 1000); // 2:00 = 120 minutes
                     const localTimeString = formatLocalTime(localGameDate);
 
                     if (currentTime >= gameStartTime && currentTime < gameEndTime) {
-                        currentGame = { ...game, time: localTimeString };
+                        currentGame = { ...game, time: localTimeString, gameNumber: gameIndex };
                     } else if (currentTime < gameStartTime && !nextGame) {
                         nextGame = { ...game, time: localTimeString };
                     }
@@ -1326,7 +1328,21 @@
                 // Update display
                 let html = '';
                 if (currentGame) {
-                    html += `<div class="current-game">🏆 NOW: ${currentGame.teams}</div>`;
+                    // Get current day number for score lookup
+                    let dayNumber;
+                    switch(currentDate) {
+                        case 'July 3, 2025': dayNumber = 1; break;
+                        case 'July 4, 2025': dayNumber = 2; break;
+                        case 'July 5, 2025': dayNumber = 3; break;
+                        case 'July 6, 2025': dayNumber = 4; break;
+                        default: dayNumber = 1;
+                    }
+                    
+                    // Get score for current game
+                    const score = getScoreForGame(dayNumber, i, currentGame.gameNumber, true);
+                    const scoreDisplay = score ? ` (${score})` : '';
+                    
+                    html += `<div class="current-game">🏆 NOW: ${currentGame.teams}${scoreDisplay}</div>`;
                 } else {
                     html += `<div class="current-game">⏸️ No current match</div>`;
                 }
