@@ -129,11 +129,6 @@
       { "time": "09:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
       { "time": "11:30", "teams": "TBA v TBA", "duration": 60, "starred": false },
       { "time": "13:30", "teams": "TBA v TBA", "duration": 60, "starred": false }
-    ],
-    "track5": [
-      { "time": "09:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "11:00", "teams": "TBA v TBA", "duration": 60, "starred": false },
-      { "time": "13:00", "teams": "TBA v TBA", "duration": 60, "starred": false }
     ]
   }
 }
