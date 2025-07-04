@@ -863,6 +863,7 @@
         let scoresData = [];
         let refreshCountdownTimer;
         let nextRefreshTime;
+        let userOpenedDays = new Set(); // Track which days user has manually opened
 
         // Convert Austria time (CET/CEST) to user's local time
         function convertAustriaTimeToLocal(timeString, dateString) {
@@ -1066,9 +1067,11 @@
             if (content.classList.contains('collapsed')) {
                 content.classList.remove('collapsed');
                 icon.textContent = '▼';
+                userOpenedDays.add(dayId); // Remember user opened this day
             } else {
                 content.classList.add('collapsed');
                 icon.textContent = '▶';
+                userOpenedDays.delete(dayId); // Remove from opened days
             }
         }
 
@@ -1202,11 +1205,18 @@
                 const contentEl = document.getElementById(`${dayId}-content`);
                 const iconEl = document.getElementById(`${dayId}-icon`);
                 
-                // Update expand/collapse state
+                // Update expand/collapse state - preserve user choices
                 if (contentEl && iconEl) {
-                    if (shouldBeExpanded) {
+                    // Check if user has manually opened this day
+                    const isUserOpened = userOpenedDays.has(dayId);
+                    
+                    if (isUserOpened || shouldBeExpanded) {
                         contentEl.classList.remove('collapsed');
                         iconEl.textContent = '▼';
+                        // Add to user opened days if it's the default expanded day
+                        if (shouldBeExpanded && !isUserOpened) {
+                            userOpenedDays.add(dayId);
+                        }
                     } else {
                         contentEl.classList.add('collapsed');
                         iconEl.textContent = '▶';
