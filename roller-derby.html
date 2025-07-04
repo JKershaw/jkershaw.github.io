@@ -742,7 +742,7 @@
                     <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
-                    <a href="https://rollerderbyworldcup.live/item.html?id=4995890" target="derby-stream" class="stream-button">
+                    <a href="#" target="derby-stream" class="stream-button" id="track1-button">
                         <div class="stream-button-content">
                             <div class="play-icon">▶️</div>
                             <div class="stream-text">
@@ -764,7 +764,7 @@
                     <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
-                    <a href="https://rollerderbyworldcup.live/item.html?id=5003477" target="derby-stream" class="stream-button">
+                    <a href="#" target="derby-stream" class="stream-button" id="track2-button">
                         <div class="stream-button-content">
                             <div class="play-icon">▶️</div>
                             <div class="stream-text">
@@ -786,7 +786,7 @@
                     <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
-                    <a href="https://rollerderbyworldcup.live/item.html?id=5003478" target="derby-stream" class="stream-button">
+                    <a href="#" target="derby-stream" class="stream-button" id="track3-button">
                         <div class="stream-button-content">
                             <div class="play-icon">▶️</div>
                             <div class="stream-text">
@@ -808,7 +808,7 @@
                     <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
-                    <a href="https://rollerderbyworldcup.live/item.html?id=5003479" target="derby-stream" class="stream-button">
+                    <a href="#" target="derby-stream" class="stream-button" id="track4-button">
                         <div class="stream-button-content">
                             <div class="play-icon">▶️</div>
                             <div class="stream-text">
@@ -830,7 +830,7 @@
                     <div class="next-game"></div>
                 </div>
                 <div class="stream-embed">
-                    <a href="https://rollerderbyworldcup.live/item.html?id=5003480" target="derby-stream" class="stream-button">
+                    <a href="#" target="derby-stream" class="stream-button" id="track5-button">
                         <div class="stream-button-content">
                             <div class="play-icon">▶️</div>
                             <div class="stream-text">
@@ -864,6 +864,21 @@
         let refreshCountdownTimer;
         let nextRefreshTime;
         let userOpenedDays = new Set(); // Track which days user has manually opened
+
+        // Get track ID for a specific day and track
+        function getTrackId(dayNumber, trackNumber) {
+            if (dayNumber === 1) {
+                // Day 1 track IDs
+                return trackNumber === 1 ? 4995890 : 5003475 + trackNumber;
+            } else if (dayNumber === 2) {
+                // Day 2 track IDs
+                const day2TrackIds = [5003568, 5003572, 5003573, 5003574, 5003575];
+                return day2TrackIds[trackNumber - 1];
+            } else {
+                // Default to day 1 IDs for other days
+                return trackNumber === 1 ? 4995890 : 5003475 + trackNumber;
+            }
+        }
 
         // Convert Austria time (CET/CEST) to user's local time
         function convertAustriaTimeToLocal(timeString, dateString) {
@@ -1041,19 +1056,8 @@
                     const score = getScoreForGame(dayNumber, game.track, game.gameNumber, game.isLive);
                     const scoreDisplay = score ? `<span class="game-score">${score}</span>` : '';
                     
-                    // Track IDs vary by day
-                    let trackId;
-                    if (dayNumber === 1) {
-                        // Day 1 track IDs
-                        trackId = game.track === 1 ? 4995890 : 5003475 + game.track;
-                    } else if (dayNumber === 2) {
-                        // Day 2 track IDs
-                        const day2TrackIds = [5003568, 5003572, 5003573, 5003574, 5003575];
-                        trackId = day2TrackIds[game.track - 1];
-                    } else {
-                        // Default to day 1 IDs for other days
-                        trackId = game.track === 1 ? 4995890 : 5003475 + game.track;
-                    }
+                    // Get track ID for this day and track
+                    const trackId = getTrackId(dayNumber, game.track);
                     const streamUrl = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
                     
                     gamesList += `
@@ -1337,6 +1341,31 @@
             }
         }
 
+        // Update main stream button URLs based on current day
+        function updateStreamButtonUrls() {
+            const now = new Date();
+            const currentDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            // Determine day number
+            let dayNumber;
+            switch(currentDate) {
+                case 'July 3, 2025': dayNumber = 1; break;
+                case 'July 4, 2025': dayNumber = 2; break;
+                case 'July 5, 2025': dayNumber = 3; break;
+                case 'July 6, 2025': dayNumber = 4; break;
+                default: dayNumber = 1;
+            }
+            
+            // Update each track button
+            for (let trackNum = 1; trackNum <= 5; trackNum++) {
+                const trackId = getTrackId(dayNumber, trackNum);
+                const buttonEl = document.getElementById(`track${trackNum}-button`);
+                if (buttonEl) {
+                    buttonEl.href = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
+                }
+            }
+        }
+
         // Handle tab reuse toggle
         function updateTabBehavior() {
             const reuseTab = document.getElementById('reuseTabToggle').checked;
@@ -1366,8 +1395,9 @@
             const refreshButton = document.getElementById('manualRefresh');
             refreshButton.addEventListener('click', manualRefresh);
             
-            // Initialize tab behavior
+            // Initialize tab behavior and stream URLs
             updateTabBehavior();
+            updateStreamButtonUrls();
             
             // Start initial countdown
             startCountdown();
@@ -1379,6 +1409,8 @@
                 updateSchedule();
                 // Ensure track links in games list have correct target after update
                 updateTabBehavior();
+                // Update stream button URLs in case day has changed
+                updateStreamButtonUrls();
             }
             // Refresh scores data (countdown will be restarted in loadScoresData)
             loadScoresData();
