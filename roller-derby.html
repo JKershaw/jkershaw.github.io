@@ -878,8 +878,12 @@
                 // Day 3 track IDs
                 const day3TrackIds = [5003576, 5003577, 5003578, 5003579, 5003580];
                 return day3TrackIds[trackNumber - 1];
+            } else if (dayNumber === 4) {
+                // Day 4 track IDs (no Track 5 on Sunday)
+                const day4TrackIds = [5003584, 5003585, 5003586, 5003587];
+                return trackNumber <= 4 ? day4TrackIds[trackNumber - 1] : null;
             } else {
-                // Default to day 1 IDs for day 4 and others
+                // Default to day 1 IDs for other days
                 return trackNumber === 1 ? 4995890 : 5003475 + trackNumber;
             }
         }
@@ -1062,7 +1066,7 @@
                     
                     // Get track ID for this day and track
                     const trackId = getTrackId(dayNumber, game.track);
-                    const streamUrl = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
+                    const streamUrl = trackId ? `https://rollerderbyworldcup.live/item.html?id=${trackId}` : '#';
                     
                     gamesList += `
                         <div class="game-item ${combinedClass}">
@@ -1381,7 +1385,14 @@
                 const trackId = getTrackId(dayNumber, trackNum);
                 const buttonEl = document.getElementById(`track${trackNum}-button`);
                 if (buttonEl) {
-                    buttonEl.href = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
+                    if (trackId) {
+                        buttonEl.href = `https://rollerderbyworldcup.live/item.html?id=${trackId}`;
+                        buttonEl.style.display = '';
+                        buttonEl.parentElement.parentElement.style.display = '';
+                    } else {
+                        // Hide Track 5 on Day 4
+                        buttonEl.parentElement.parentElement.style.display = 'none';
+                    }
                 }
             }
         }
