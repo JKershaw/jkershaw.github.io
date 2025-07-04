@@ -374,12 +374,45 @@
             text-decoration: none;
             font-weight: bold;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .track-link:hover {
             color: #c0392b;
             text-decoration: underline;
+        }
+
+        .live-track-link {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white !important;
+            padding: 8px 12px;
+            border-radius: 20px;
+            text-decoration: none !important;
+            font-weight: bold;
+            font-size: 0.9em;
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+            animation: pulse-glow 2s infinite;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .live-track-link:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+            color: white !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.5);
+        }
+
+        @keyframes pulse-glow {
+            0% { 
+                box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+            }
+            50% { 
+                box-shadow: 0 2px 15px rgba(231, 76, 60, 0.6);
+            }
+            100% { 
+                box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+            }
         }
 
         .game-item.starred {
@@ -1068,11 +1101,15 @@
                     const trackId = getTrackId(dayNumber, game.track);
                     const streamUrl = trackId ? `https://rollerderbyworldcup.live/item.html?id=${trackId}` : '#';
                     
+                    // Make live games more obvious as watchable links
+                    const trackLinkText = game.isLive ? `🔴 WATCH LIVE - Track ${game.track}` : `Track ${game.track}`;
+                    const trackLinkClass = game.isLive ? 'track-link live-track-link' : 'track-link';
+                    
                     gamesList += `
                         <div class="game-item ${combinedClass}">
                             <span class="game-time">${game.time}</span> - ${game.teams}${starIcon} <br />${liveIndicator} ${elapsedTime} ${scoreDisplay}
                             <div class="game-track">
-                                <a href="${streamUrl}" target="derby-stream" class="track-link">Track ${game.track}</a>
+                                <a href="${streamUrl}" target="derby-stream" class="${trackLinkClass}">${trackLinkText}</a>
                             </div>
                         </div>
                     `;
