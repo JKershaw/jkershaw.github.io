@@ -939,7 +939,7 @@
                 return day3TrackIds[trackNumber - 1];
             } else if (dayNumber === 4) {
                 // Day 4 track IDs (no Track 5 on Sunday)
-                const day4TrackIds = [5003584, 5003585, 5003586, 5003587];
+                const day4TrackIds = [5003584, 5003585, 5003586, 5003587, 5003585];
                 return trackNumber <= 4 ? day4TrackIds[trackNumber - 1] : null;
             } else {
                 // Default to day 1 IDs for other days
