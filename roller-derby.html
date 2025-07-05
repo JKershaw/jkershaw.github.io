@@ -1027,6 +1027,11 @@
 
         // Get score for a specific day, track, and game
         function getScoreForGame(day, track, game, isLive = false) {
+            // Return null if spoiler mode is enabled
+            if (spoilerMode) {
+                return null;
+            }
+            
             const score = scoresData.find(s => s.day === day && s.track === track && s.game === game);
             if (score) {
                 // Don't show 0-0 scores (games that haven't started)
