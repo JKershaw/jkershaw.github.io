@@ -104,7 +104,7 @@
       { "time": "11:00", "teams": "Mexico v New Zealand", "starred": false },
       { "time": "13:00", "teams": "Iceland v Taiwan", "starred": true },
       { "time": "15:30", "teams": "Ireland v South Africa", "starred": false },
-      { "time": "17:30", "teams": "England v Argentina (QF)", "starred": true }
+      { "time": "17:30", "teams": "England v Argentina (QF)", "starred": false }
     ]
   },
   "July 6, 2025": {
