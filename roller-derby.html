@@ -1150,6 +1150,28 @@
             }
         }
 
+        // Save user preferences to localStorage
+        function saveUserPreferences() {
+            try {
+                localStorage.setItem('rdwc-user-opened-days', JSON.stringify([...userOpenedDays]));
+            } catch (error) {
+                console.warn('Failed to save user preferences:', error);
+            }
+        }
+
+        // Load user preferences from localStorage
+        function loadUserPreferences() {
+            try {
+                const savedDays = localStorage.getItem('rdwc-user-opened-days');
+                if (savedDays) {
+                    userOpenedDays = new Set(JSON.parse(savedDays));
+                }
+            } catch (error) {
+                console.warn('Failed to load user preferences:', error);
+                userOpenedDays = new Set(); // Reset to empty set on error
+            }
+        }
+
         // Toggle day section collapse/expand
         function toggleDay(dayId) {
             const content = document.getElementById(`${dayId}-content`);
@@ -1164,6 +1186,9 @@
                 icon.textContent = '▶';
                 userOpenedDays.delete(dayId); // Remove from opened days
             }
+            
+            // Save preferences to localStorage
+            saveUserPreferences();
         }
 
         // Update countdown display
@@ -1252,14 +1277,11 @@
             dates.forEach((dayInfo, index) => {
                 const dayId = `day${dayInfo.dayNum}`;
                 let dayLabel, gamesLabel;
-                let shouldBeExpanded = false;
                 
                 if (currentDayIndex === -1) {
                     // Not on a tournament day - use date labels
                     dayLabel = `Day ${dayInfo.dayNum} - ${dayInfo.date}`;
                     gamesLabel = `${dayInfo.date} Games`;
-                    // Expand Day 1 by default when not on tournament days
-                    shouldBeExpanded = (dayInfo.dayNum === 1);
                 } else {
                     // On a tournament day - use relative labels
                     const dayDiff = index - currentDayIndex;
@@ -1267,25 +1289,20 @@
                     if (dayDiff === 0) {
                         dayLabel = `Day ${dayInfo.dayNum} - Today (${dayInfo.date})`;
                         gamesLabel = `Today's Games (${dayInfo.date})`;
-                        shouldBeExpanded = true; // Expand today
                     } else if (dayDiff === 1) {
                         dayLabel = `Day ${dayInfo.dayNum} - Tomorrow (${dayInfo.date})`;
                         gamesLabel = `Tomorrow's Games (${dayInfo.date})`;
-                        shouldBeExpanded = false;
                     } else if (dayDiff === -1) {
                         dayLabel = `Day ${dayInfo.dayNum} - Yesterday (${dayInfo.date})`;
                         gamesLabel = `Yesterday's Games (${dayInfo.date})`;
-                        shouldBeExpanded = false;
                     } else if (dayDiff > 1) {
                         const daysAhead = dayDiff;
                         dayLabel = `Day ${dayInfo.dayNum} - In ${daysAhead} days (${dayInfo.date})`;
                         gamesLabel = `${dayInfo.date} Games`;
-                        shouldBeExpanded = false;
                     } else {
                         const daysAgo = Math.abs(dayDiff);
                         dayLabel = `Day ${dayInfo.dayNum} - ${daysAgo} days ago (${dayInfo.date})`;
                         gamesLabel = `${dayInfo.date} Games`;
-                        shouldBeExpanded = false;
                     }
                 }
                 
@@ -1296,18 +1313,13 @@
                 const contentEl = document.getElementById(`${dayId}-content`);
                 const iconEl = document.getElementById(`${dayId}-icon`);
                 
-                // Update expand/collapse state - preserve user choices
+                // Update expand/collapse state - use only user preferences
                 if (contentEl && iconEl) {
-                    // Check if user has manually opened this day
                     const isUserOpened = userOpenedDays.has(dayId);
                     
-                    if (isUserOpened || shouldBeExpanded) {
+                    if (isUserOpened) {
                         contentEl.classList.remove('collapsed');
                         iconEl.textContent = '▼';
-                        // Add to user opened days if it's the default expanded day
-                        if (shouldBeExpanded && !isUserOpened) {
-                            userOpenedDays.add(dayId);
-                        }
                     } else {
                         contentEl.classList.add('collapsed');
                         iconEl.textContent = '▶';
@@ -1315,7 +1327,7 @@
                 }
                 
                 if (titleEl) {
-                    const currentIcon = iconEl ? iconEl.textContent : '▼';
+                    const currentIcon = iconEl ? iconEl.textContent : '▶';
                     titleEl.innerHTML = `${dayLabel} <span class="collapse-icon" id="${dayId}-icon">${currentIcon}</span>`;
                 }
                 if (gamesTitleEl) {
@@ -1512,6 +1524,9 @@
 
         // Load schedule data and update on page load
         document.addEventListener('DOMContentLoaded', () => {
+            // Load user preferences first
+            loadUserPreferences();
+            
             loadScheduleData();
             loadScoresData();
             
