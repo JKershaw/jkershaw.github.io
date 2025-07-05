@@ -1165,10 +1165,15 @@
                 const savedDays = localStorage.getItem('rdwc-user-opened-days');
                 if (savedDays) {
                     userOpenedDays = new Set(JSON.parse(savedDays));
+                } else {
+                    // First-time user - expand Day 3 by default
+                    userOpenedDays = new Set(['day3']);
+                    saveUserPreferences(); // Save the default preference
                 }
             } catch (error) {
                 console.warn('Failed to load user preferences:', error);
-                userOpenedDays = new Set(); // Reset to empty set on error
+                userOpenedDays = new Set(['day3']); // Reset with Day 3 expanded on error
+                saveUserPreferences(); // Save the default preference
             }
         }
 
