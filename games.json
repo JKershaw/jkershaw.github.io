@@ -8,7 +8,7 @@
       { "time": "17:30", "teams": "Portugal v Slovenia", "duration": 60, "starred": true }
     ],
     "track2": [
-      { "time": "09:30", "teams": "Australia v Salaam", "duration": 60, "starred": false },
+      { "time": "09:30", "teams": "Australia v SALAAM", "duration": 60, "starred": false },
       { "time": "11:30", "teams": "England v Mexico", "duration": 60, "starred": true },
       { "time": "13:30", "teams": "Argentina v Ireland", "duration": 60, "starred": false },
       { "time": "16:00", "teams": "Korea v Greece", "duration": 60, "starred": false },
