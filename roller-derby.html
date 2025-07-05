@@ -534,6 +534,22 @@
             display: none;
         }
 
+        #spoilerModeToggle:checked + .toggle-slider {
+            background: #e74c3c;
+        }
+
+        #spoilerModeToggle:checked + .toggle-slider::before {
+            transform: translateX(30px);
+        }
+
+        #spoilerModeToggle {
+            display: none;
+        }
+
+        .spoiler-hidden {
+            display: none !important;
+        }
+
         .toggle-description {
             margin-top: 10px;
             font-size: 0.9em;
@@ -891,12 +907,22 @@
         <div class="countdown" id="refreshCountdown">Next auto-refresh in 60 seconds</div>
     </div>
 
+    <div class="tab-behavior-toggle">
+        <label class="toggle-label">
+            <input type="checkbox" id="spoilerModeToggle">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Hide scores (spoiler-free mode)</span>
+        </label>
+        <p class="toggle-description">When enabled, all scores are hidden to avoid spoilers. Your preference is saved locally.</p>
+    </div>
+
     <script>
         let scheduleData = {};
         let scoresData = [];
         let refreshCountdownTimer;
         let nextRefreshTime;
         let userOpenedDays = new Set(); // Track which days user has manually opened
+        let spoilerMode = false; // Track spoiler mode setting
 
         // Get track ID for a specific day and track
         function getTrackId(dayNumber, trackNumber) {
@@ -1434,6 +1460,35 @@
             }
         }
 
+        // Handle spoiler mode toggle
+        function updateSpoilerMode() {
+            const spoilerModeCheckbox = document.getElementById('spoilerModeToggle');
+            spoilerMode = spoilerModeCheckbox.checked;
+            
+            // Save to localStorage
+            localStorage.setItem('rdwc-spoiler-mode', spoilerMode);
+            
+            // Update refresh button text
+            const refreshButton = document.getElementById('manualRefresh');
+            if (refreshButton) {
+                refreshButton.textContent = spoilerMode ? '🔄 Refresh Data Now' : '🔄 Refresh Scores Now';
+            }
+            
+            // Refresh the schedule to hide/show scores
+            if (Object.keys(scheduleData).length > 0) {
+                updateSchedule();
+            }
+        }
+
+        // Load spoiler mode preference from localStorage
+        function loadSpoilerModePreference() {
+            const savedSpoilerMode = localStorage.getItem('rdwc-spoiler-mode');
+            if (savedSpoilerMode !== null) {
+                spoilerMode = savedSpoilerMode === 'true';
+                document.getElementById('spoilerModeToggle').checked = spoilerMode;
+            }
+        }
+
         // Handle tab reuse toggle
         function updateTabBehavior() {
             const reuseTab = document.getElementById('reuseTabToggle').checked;
@@ -1455,17 +1510,22 @@
             loadScheduleData();
             loadScoresData();
             
-            // Set up toggle event listener
+            // Set up toggle event listeners
             const toggle = document.getElementById('reuseTabToggle');
             toggle.addEventListener('change', updateTabBehavior);
+            
+            const spoilerToggle = document.getElementById('spoilerModeToggle');
+            spoilerToggle.addEventListener('change', updateSpoilerMode);
             
             // Set up manual refresh button
             const refreshButton = document.getElementById('manualRefresh');
             refreshButton.addEventListener('click', manualRefresh);
             
-            // Initialize tab behavior and stream URLs
+            // Initialize preferences and behavior
+            loadSpoilerModePreference();
             updateTabBehavior();
             updateStreamButtonUrls();
+            updateSpoilerMode();
             
             // Start initial countdown
             startCountdown();
