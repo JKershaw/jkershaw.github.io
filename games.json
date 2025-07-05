@@ -111,7 +111,7 @@
     "track1": [
       { "time": "09:00", "teams": "USA v France (SF)", "starred": false },
       { "time": "11:00", "teams": "Colombia v Desi", "starred": false },
-      { "time": "13:00", "teams": "Parade and Performance", "starred": false },
+      { "time": "13:00", "teams": "Parade and Performance", "starred": true },
       { "time": "15:30", "teams": "3rd/4th Place", "starred": true },
       { "time": "17:30", "teams": "Final", "starred": true }
     ],
@@ -123,7 +123,7 @@
       { "time": "09:30", "teams": "Denmark v Poland", "starred": false }
     ],
     "track5": [
-      { "time": "09:30", "teams": "Wales v Greece", "starred": false }
+      { "time": "09:30", "teams": "Wales v Greece", "starred": true }
     ]
   }
 }
