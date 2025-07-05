@@ -109,26 +109,21 @@
   },
   "July 6, 2025": {
     "track1": [
-      { "time": "09:00", "teams": "TBA v TBA", "starred": false },
-      { "time": "11:00", "teams": "TBA v TBA", "starred": false },
-      { "time": "13:00", "teams": "TBA v TBA", "starred": false },
+      { "time": "09:00", "teams": "USA v France (SF)", "starred": false },
+      { "time": "11:00", "teams": "Colombia v Desi", "starred": false },
+      { "time": "13:00", "teams": "Parade and Performance", "starred": false },
       { "time": "15:30", "teams": "3rd/4th Place", "starred": true },
       { "time": "17:30", "teams": "Final", "starred": true }
     ],
-    "track2": [
-      { "time": "09:30", "teams": "TBA v TBA", "starred": false },
-      { "time": "11:30", "teams": "TBA v TBA", "starred": false },
-      { "time": "13:30", "teams": "TBA v TBA", "starred": false }
-    ],
     "track3": [
-      { "time": "09:00", "teams": "TBA v TBA", "starred": false },
-      { "time": "11:00", "teams": "TBA v TBA", "starred": false },
-      { "time": "13:00", "teams": "TBA v TBA", "starred": false }
+      { "time": "09:00", "teams": "England v Australia", "starred": true },
+      { "time": "11:00", "teams": "SALAAM v Latvia", "starred": false }
     ],
     "track4": [
-      { "time": "09:30", "teams": "TBA v TBA", "starred": false },
-      { "time": "11:30", "teams": "TBA v TBA", "starred": false },
-      { "time": "13:30", "teams": "TBA v TBA", "starred": false }
+      { "time": "09:30", "teams": "Denmark v Poland", "starred": false }
+    ],
+    "track5": [
+      { "time": "09:30", "teams": "Wales v Greece", "starred": false }
     ]
   }
 }
