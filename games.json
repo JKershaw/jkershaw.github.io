@@ -112,8 +112,8 @@
       { "time": "09:00", "teams": "USA v France (SF)", "starred": false },
       { "time": "11:00", "teams": "Colombia v Desi", "starred": false },
       { "time": "13:00", "teams": "Parade and Performance", "starred": true },
-      { "time": "15:30", "teams": "3rd/4th Place", "starred": true },
-      { "time": "17:30", "teams": "Final", "starred": true }
+      { "time": "15:30", "teams": "England v France (3rd)", "starred": true },
+      { "time": "17:30", "teams": "USA v Australia (Final)", "starred": true }
     ],
     "track3": [
       { "time": "09:00", "teams": "England v Australia (SF)", "starred": true },
