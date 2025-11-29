@@ -8,7 +8,7 @@ Now I'm a tech lead / early-stage CTO / amateur baker.
 
 ##### Posts
 
-[Human-AI Collaboration Analysis: Optimizing Your Claude Code Workflow](posts/2025-11-29-Claude-tips)
+[Human-AI Collaboration Analysis: Optimizing Your Claude Code Workflow](posts/2025-11-29-Claude-tips.md)
 
 ##### Links
 
