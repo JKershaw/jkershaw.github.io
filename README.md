@@ -6,6 +6,10 @@ I made a silly little app a few years ago which I turned it into a company, pivo
 
 Now I'm a tech lead / early-stage CTO / amateur baker.
 
+##### Posts
+
+[Human-AI Collaboration Analysis: Optimizing Your Claude Code Workflow](posts/2025-11-29-Claude-tips)
+
 ##### Links
 
 [LinkedIn](https://www.linkedin.com/in/johnkershaw/)
