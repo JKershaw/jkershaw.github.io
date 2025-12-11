@@ -8,6 +8,8 @@ Now I'm a tech lead / early-stage CTO / amateur baker.
 
 ##### Posts
 
+[Your Tests Are Green. Your Prompts Are Broken.](posts/2025-12-11-llm-tests.md)
+
 [Human-AI Collaboration Analysis: Optimizing Your Claude Code Workflow](posts/2025-11-29-Claude-tips.md)
 
 ##### Links
