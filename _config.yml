@@ -3,6 +3,10 @@ description: Tech Lead, Early-stage CTO, Amateur Baker
 url: "https://www.jkershaw.com"
 markdown: kramdown
 
+highlighter: rouge
+kramdown:
+  syntax_highlighter: rouge
+
 social:
   linkedin: "johnkershaw"
   threads: "wardrox"
