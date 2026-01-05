@@ -10,9 +10,9 @@ Now I'm a tech lead / early-stage CTO / amateur baker.
 
 [Dash](https://github.com/JKershaw/dash) - Claude Code workflow analyzer
 
-[MangoDB](https://github.com/JKershaw/mangodb) - File-based MongoDB alternative
+[MangoDB 🥭](https://github.com/JKershaw/mangodb) - File-based MongoDB alternative
 
-[Market Accurate](https://github.com/JKershaw/market-accurate) - Verifiable financial analysis platform
+[Market Accurate](https://github.com/JKershaw/market-accurate) - Public domain financial research where accuracy is the only moat
 
 [LinearViewer](https://github.com/JKershaw/LinearViewer) - Linear workspace viewer
 
