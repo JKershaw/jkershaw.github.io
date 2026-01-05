@@ -1,0 +1,25 @@
+---
+layout: default
+---
+<article class="post">
+  <header class="post-header">
+    <a href="{{ '/' | relative_url }}" class="back-link">&larr; Back</a>
+    <h1 class="post-title">{{ page.title }}</h1>
+    {% if page.date %}
+    <time class="post-date" datetime="{{ page.date | date: '%Y-%m-%d' }}">
+      {{ page.date | date: "%B %d, %Y" }}
+    </time>
+    {% endif %}
+    {% if page.description %}
+    <p class="post-description">{{ page.description }}</p>
+    {% endif %}
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  <footer class="post-footer">
+    <a href="{{ '/' | relative_url }}" class="back-link">&larr; Back</a>
+  </footer>
+</article>

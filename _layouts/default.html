@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include head.html %}
+</head>
+<body>
+  <div class="site-container">
+    {% include header.html %}
+
+    <main class="main-content">
+      {{ content }}
+    </main>
+
+    {% include footer.html %}
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        toggle.addEventListener('click', () => {
+          const current = document.documentElement.getAttribute('data-theme');
+          const next = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem('theme', next);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
