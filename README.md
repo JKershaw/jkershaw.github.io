@@ -6,6 +6,16 @@ I made a silly little app a few years ago which I turned it into a company, pivo
 
 Now I'm a tech lead / early-stage CTO / amateur baker.
 
+##### Recent Projects
+
+[Dash](https://github.com/JKershaw/dash) - Claude Code workflow analyzer
+
+[MangoDB](https://github.com/JKershaw/mangodb) - File-based MongoDB alternative
+
+[Market Accurate](https://github.com/JKershaw/market-accurate) - Verifiable financial analysis platform
+
+[LinearViewer](https://github.com/JKershaw/LinearViewer) - Linear workspace viewer
+
 ##### Posts
 
 [Your Tests Are Green. Your Prompts Are Broken.](posts/2025-12-11-llm-tests.md)
