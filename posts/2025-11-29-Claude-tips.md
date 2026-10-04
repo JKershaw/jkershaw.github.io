@@ -5,7 +5,7 @@ date: 2025-11-29
 description: "Analysis of 400+ sessions with Claude Code, totalling around 20 days of coding time."
 ---
 
-_This guide was created based on analysis of 400+ sessions with Claude Code, totalling around 20 days of coding time. The analysis was done using [Dash](https://github.com/jkershaw/dash), a pet project of mine I made to help me be more zen when using AI Coding tools._
+_This guide was created based on analysis of 400+ sessions with Claude Code, totalling around 20 days of coding time. The analysis was done using [Claude Session Analysis](https://github.com/JKershaw/dash-analysis), a pet project of mine I made to help me be more zen when using AI Coding tools._
 
 ## 1. Collaboration Overview
 
